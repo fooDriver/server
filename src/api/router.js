@@ -36,54 +36,7 @@ authRouter.post('/signin', auth, (req, res, next) => {
 //* Page Router
 //--------------------------------------
 
-// User routes
 
-authRouter.get('/driver-routes', (req, res, next) => {
-  res.send('hello user checking out driver routes');
-});
-
-authRouter.get('/driver-routes/:name', (req, res, next) => {
-  res.send('hello user checking out driver routes again');
-});
-
-authRouter.post('/driver-routes/request/:name', (req, res, next) => {
-  res.send('Whuzzup user posting to driver routes');
-});
-
-
-// Drivers routes
-authRouter.get('/driver-routes/:name', (req, res, next) => {
-
-});
-
-authRouter.post('/driver-routes/:name', (req, res, next) => {
-
-});
-
-authRouter.put('/driver-routes/:name', (req, res, next) => {
-
-});
-
-authRouter.delete('/driver-routes/:name', (req, res, next) => {
-
-});
-
-authRouter.get('/pickup-locations/:name', (req, res, next) => {
-
-});
-
-// Donators routes
-authRouter.get('/driver-routes', (req, res, next) => {
-
-});
-
-authRouter.get('/driver-routes/:name', (req, res, next) => {
-
-});
-
-authRouter.post('/driver-routes/donation/:name', (req, res, next) => {
-
-});
 
 
 export default authRouter;
