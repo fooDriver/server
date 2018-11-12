@@ -41,7 +41,11 @@ donRouter.get('/driver-routes/:name', (req, res, next) => {
   users.findOne({
       name: req.params.name,
     })
-    .then(data => )
+    .then()
+    .then(data => {
+      sendJSON(data, res);
+    })
+    .catch(next);
 });
 // sends address and food of the user
 donRouter.post('/driver-routes/donation/:name', (req, res, next) => {
