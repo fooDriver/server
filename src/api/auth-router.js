@@ -9,7 +9,7 @@ import express from 'express';
 const authRouter = express.Router();
 
 // Models
-import user from '../models/user';
+import User from '../models/user';
 import auth from '../middleware/auth';
 
 //middleware JSON sending module
@@ -18,10 +18,26 @@ import sendJSON from '../middleware/sendJSON';
 //--------------------------------------
 //* Auth Router
 //--------------------------------------
-// TODO: Review and update with Jen's models
+//This route is for generic user puts a stopper for users to determine roles
 authRouter.post('/signup', (req, res, next) => {
+  if (req.body.role) {
+    res.send(`Admin access only, please do not select role`);
+    res.end();
+  }
   let user = new User(req.body);
-  user.save().then((user) => res.send(user.generateToken())).catch(next);
+  user
+    .save()
+    .then(user => res.send(user.generateToken()))
+    .catch(next);
+});
+
+//This route is for admin, it is used to create a a user with any role
+authRouter.post('/signup/admin', auth('create'), (req, res, next) => {
+  let user = new User(req.body);
+  user
+    .save()
+    .then(user => res.send(user.generateToken()))
+    .catch(next);
 });
 
 // TODO: Review
@@ -30,13 +46,8 @@ authRouter.post('/signin', auth, (req, res, next) => {
   res.send(req.token);
 });
 
-
-
 //--------------------------------------
 //* Page Router
 //--------------------------------------
-
-
-
 
 export default authRouter;
