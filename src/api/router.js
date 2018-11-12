@@ -9,8 +9,11 @@ import express from 'express';
 const authRouter = express.Router();
 
 // Models
-import user from './models/user.js';
-import auth from './middleware/auth.js';
+import user from '../models/user';
+import auth from '../middleware/auth';
+
+//middleware JSON sending module
+import sendJSON from '../middleware/sendJSON';
 
 //--------------------------------------
 //* Auth Router
@@ -27,8 +30,60 @@ authRouter.post('/signin', auth, (req, res, next) => {
   res.send(req.token);
 });
 
-export default authRouter;
+
 
 //--------------------------------------
 //* Page Router
 //--------------------------------------
+
+// User routes
+
+authRouter.get('/driver-routes', (req, res, next) => {
+  res.send('hello user checking out driver routes');
+});
+
+authRouter.get('/driver-routes/:name', (req, res, next) => {
+  res.send('hello user checking out driver routes again');
+});
+
+authRouter.post('/driver-routes/request/:name', (req, res, next) => {
+  res.send('Whuzzup user posting to driver routes');
+});
+
+
+// Drivers routes
+authRouter.get('/driver-routes/:name', (req, res, next) => {
+
+});
+
+authRouter.post('/driver-routes/:name', (req, res, next) => {
+
+});
+
+authRouter.put('/driver-routes/:name', (req, res, next) => {
+
+});
+
+authRouter.delete('/driver-routes/:name', (req, res, next) => {
+
+});
+
+authRouter.get('/pickup-locations/:name', (req, res, next) => {
+
+});
+
+// Donators routes
+authRouter.get('/driver-routes', (req, res, next) => {
+
+});
+
+authRouter.get('/driver-routes/:name', (req, res, next) => {
+
+});
+
+authRouter.post('/driver-routes/donation/:name', (req, res, next) => {
+
+});
+
+
+export default authRouter;
