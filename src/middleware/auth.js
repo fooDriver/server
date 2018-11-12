@@ -6,7 +6,6 @@
 
 // Dependencies
 import User from '../models/user.js';
-// TBD
 
 //--------------------------------------
 //* Auth
