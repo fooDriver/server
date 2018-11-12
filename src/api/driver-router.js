@@ -36,7 +36,3 @@ driverRouter.put('/driver-routes/:name', (req, res, next) => {
 driverRouter.delete('/driver-routes/:name', (req, res, next) => {
 
 });
-
-driverRouter.get('/pickup-locations/:name', (req, res, next) => {
-
-});

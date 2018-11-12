@@ -38,7 +38,10 @@ donRouter.get('/driver-routes', (req, res, next) => {
 // populate pantry with food
 // populate routes with stops
 donRouter.get('/driver-routes/:name', (req, res, next) => {
-
+  users.findOne({
+      name: req.params.name,
+    })
+    .then(data => )
 });
 // sends address and food of the user
 donRouter.post('/driver-routes/donation/:name', (req, res, next) => {
