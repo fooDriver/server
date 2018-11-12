@@ -19,7 +19,7 @@ let sendJSON = (res, data) => {
 
 adminRouter.get('/users', async (req, res, next) => {
   try {
-    let users = await user.find({role: 'user'});
+    let users = await user.find({ role: 'user' });
     sendJSON(res, users);
   }
   catch {
@@ -29,7 +29,7 @@ adminRouter.get('/users', async (req, res, next) => {
 
 adminRouter.get('/donators', async (req, res, next) => {
   try {
-    let users = await user.find({role: 'donator'});
+    let users = await user.find({ role: 'donator' });
     sendJSON(res, users);
   }
   catch {
@@ -39,7 +39,7 @@ adminRouter.get('/donators', async (req, res, next) => {
 
 adminRouter.get('/drivers', async (req, res, next) => {
   try {
-    let users = await user.find({role: 'driver'});
+    let users = await user.find({ role: 'driver' });
     sendJSON(res, users);
   }
   catch {
@@ -47,21 +47,9 @@ adminRouter.get('/drivers', async (req, res, next) => {
   }
 });
 
-// TODO: Figure out what goes here
-
-// adminRouter.get('/pickup-locations/:username', async (req, res, next) => {
-//   try {
-//     let pickup = await user.find({username: req.params.username});
-    
-//   }
-//   catch {
-
-//   }
-// })
-
 adminRouter.get('/driver-routes/donation/:username', async (req, res, next) => {
   try {
-    let donation = await rd.find({username: req.params.username, reqOrDon: 'donation'});
+    let donation = await rd.find({ username: req.params.username, reqOrDon: 'donation' });
     sendJSON(res, donation);
   }
   catch {
@@ -71,7 +59,7 @@ adminRouter.get('/driver-routes/donation/:username', async (req, res, next) => {
 
 adminRouter.get('/driver-routes/requests/:username', async (req, res, next) => {
   try {
-    let request = await rd.find({username: req.params.username, reqOrDon: 'request'});
+    let request = await rd.find({ username: req.params.username, reqOrDon: 'request' });
     sendJSON(res, request);
   }
   catch {
@@ -80,6 +68,90 @@ adminRouter.get('/driver-routes/requests/:username', async (req, res, next) => {
 });
 
 adminRouter.put('/users', async (req, res, next) => {
-  
-})
+  try {
+    console.log('Hi from admin users page');
+  }
+  catch {
+    next;
+  }
+});
+
+adminRouter.put('/donators', async (req, res, next) => {
+  try {
+    console.log('Hi from admin donators page');
+  }
+  catch {
+    next;
+  }
+});
+
+adminRouter.put('/drivers', async (req, res, next) => {
+  try {
+    console.log('Hi from admin drivers page');
+  }
+  catch {
+    next;
+  }
+});
+
+adminRouter.delete('/users/:id', async (req, res, next) => {
+  try {
+    await user.findByIdAndRemove(req.params.id);
+    res.statusCode = 204;
+    res.statusMessage = 'No Content';
+    res.end();
+  }
+  catch {
+    next();
+  }
+});
+
+adminRouter.delete('/donators/:id', async (req, res, next) => {
+  try {
+    await user.findByIdAndRemove(req.params.id);
+    res.statusCode = 204;
+    res.statusMessage = 'No Content';
+    res.end();
+  }
+  catch {
+    next();
+  }
+});
+
+adminRouter.delete('/drivers/:id', async (req, res, next) => {
+  try {
+    await user.findByIdAndRemove(req.params.id);
+    res.statusCode = 204;
+    res.statusMessage = 'No Content';
+    res.end();
+  }
+  catch {
+    next();
+  }
+});
+
+adminRouter.delete('/driver-routes/donation/:username/:id', async (req, res, next) => {
+  try {
+    await rd.findByIdAndRemove(req.params.id);
+    res.statusCode = 204;
+    res.statusMessage = 'No Content';
+    res.end();
+  }
+  catch {
+    next();
+  }
+});
+
+adminRouter.delete('/driver-routes/request/:username/:id', async (req, res, next) => {
+  try {
+    await rd.findByIdAndRemove(req.params.id);
+    res.statusCode = 204;
+    res.statusMessage = 'No Content';
+    res.end();
+  }
+  catch {
+    next();
+  }
+});
+
 
