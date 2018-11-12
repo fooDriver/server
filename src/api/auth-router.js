@@ -9,8 +9,11 @@ import express from 'express';
 const authRouter = express.Router();
 
 // Models
-import user from './models/user.js';
-import auth from './middleware/auth.js';
+import user from '../models/user';
+import auth from '../middleware/auth';
+
+//middleware JSON sending module
+import sendJSON from '../middleware/sendJSON';
 
 //--------------------------------------
 //* Auth Router
@@ -27,8 +30,13 @@ authRouter.post('/signin', auth, (req, res, next) => {
   res.send(req.token);
 });
 
-export default authRouter;
+
 
 //--------------------------------------
 //* Page Router
 //--------------------------------------
+
+
+
+
+export default authRouter;
