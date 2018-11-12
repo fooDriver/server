@@ -6,6 +6,7 @@
 
 // Dependencies
 import express from 'express';
+import cli from './views/cli.js';
 // import router from './api/router.js';
 // import notFound from './middleware/404.js'; // 404 page not found
 // import serverError from './middleware/error.js'; // 500 server error
