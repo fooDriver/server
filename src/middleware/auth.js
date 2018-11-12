@@ -32,9 +32,9 @@ export default capability => {
     }
     //helper for basic authentication
     function authBasic(authString) {
-      let base64Buffer = Buffer.from(authString, 'base64'); // <Buffer 01 02...>
-      let bufferString = base64Buffer.toString(); // john:mysecret
-      let [username, password] = bufferString.split(':'); // variables username="john" and password="mysecret"
+      let base64Buffer = Buffer.from(authString, 'base64');
+      let bufferString = base64Buffer.toString();
+      let [username, password] = bufferString.split(':');
       let auth = {
         username,
         password
@@ -42,12 +42,14 @@ export default capability => {
 
       return User.authenticateBasic(auth).then(user => authenticate(user));
     }
+
     //helper for bearer authetication
     function authBearer(authString) {
       return User.authenticateToken(authString).then(user =>
         authenticate(user)
       );
     }
+
     //helper to determine the user's role
     function authenticate(user) {
       if (user && (!capability || user.can(capability))) {
