@@ -10,6 +10,11 @@ import mongoose, { Schema } from 'mongoose';
 
 const routeSchema = new Schema({
   name: String,
+  driver: {
+    type: Schema.Types.ObjectId,
+    ref: 'users',
+    autopopulate: true,
+  },
 });
 
 routeSchema.plugin(require('mongoose-autopopulate'));

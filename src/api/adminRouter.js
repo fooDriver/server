@@ -157,12 +157,7 @@ adminRouter.post('/donators', async (req, res, next) => {
 adminRouter.post('/drivers', async (req, res, next) => {
   try {
     let newDriver = await user.create(req.body);
-    let updatedDriver = await user.update(
-      { '_id': newDriver._id },
-      { '$set': { 'pantry': req.body.pantry} },
-      { '$set': { 'route': req.body.route } },
-    );
-    sendJSON(res, updatedDriver);
+    sendJSON(res, newDriver);
   }
   catch (err) {
     next();
