@@ -9,7 +9,7 @@ import express from 'express';
 const authRouter = express.Router();
 
 // Models
-import User from '../models/user';
+import User from '../models/users.js';
 import auth from '../middleware/auth';
 
 //middleware JSON sending module
