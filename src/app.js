@@ -10,6 +10,7 @@ import express from 'express';
 // import notFound from './middleware/404.js'; // 404 page not found
 // import serverError from './middleware/error.js'; // 500 server error
 import authRouter from './api/auth-router.js';
+import adminRouter from './api/adminRouter.js';
 
 // Start Express
 const app = express();
@@ -17,7 +18,7 @@ const app = express();
 // Middleware
 app.use(express.json()); // json parser
 app.use(authRouter);
-// app.use(router);
+app.use(adminRouter);
 // app.use(notFound);
 // app.use(serverError);
 

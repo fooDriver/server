@@ -2,14 +2,14 @@
 //* Pantry Schema
 //--------------------------------------
 
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 
 //--------------------------------------------------
 //* Pantry only has single driver
 //* Pantry items are an array of foods
 //--------------------------------------------------
 
-const pantrySchema = new mongoose.Schema({
+const pantrySchema = new Schema({
   driver: {
     type: Schema.Types.ObjectId,
     ref: 'users',

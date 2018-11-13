@@ -2,13 +2,13 @@
 //* Route Stops Schema
 //--------------------------------------
 
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 
 //--------------------------------------------------
 //* Routes only have single driver
 //--------------------------------------------------
 
-const routeSchema = new mongoose.Schema({
+const routeSchema = new Schema({
   driver: {
     type: Schema.Types.ObjectId,
     ref: 'users',

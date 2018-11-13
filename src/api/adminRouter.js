@@ -15,8 +15,8 @@ adminRouter.get('/food', async (req, res, next) => {
     const foods = await food.find({});
     sendJSON(res, foods);
   }
-  catch {
-    next;
+  catch (err) {
+    next();
   }
 });
 
@@ -25,8 +25,8 @@ adminRouter.get('/stops', async (req, res, next) => {
     const routeStops = await stop.find({});
     sendJSON(res, routeStops); 
   }
-  catch {
-    next;
+  catch (err) {
+    next();
   }
 });
 
@@ -35,8 +35,8 @@ adminRouter.get('/driver-routes', async (req, res, next) => {
     const driverRoutes = await dRoute.find({});
     sendJSON(res, driverRoutes);
   }
-  catch {
-    next;
+  catch (err) {
+    next();
   }
 });
 
@@ -45,8 +45,8 @@ adminRouter.get('/pantries', async (req, res, next) => {
     const pantries = await pantry.find({});
     sendJSON(res, pantries);
   }
-  catch {
-    next;
+  catch (err) {
+    next();
   }
 });
 
@@ -55,8 +55,8 @@ adminRouter.get('/users', async (req, res, next) => {
     const users = await user.find({ role: 'user' });
     sendJSON(res, users);
   }
-  catch {
-    next;
+  catch (err) {
+    next();
   }
 });
 
@@ -65,8 +65,8 @@ adminRouter.get('/donators', async (req, res, next) => {
     const users = await user.find({ role: 'donator' });
     sendJSON(res, users);
   }
-  catch {
-    next;
+  catch (err) {
+    next();
   }
 });
 
@@ -75,8 +75,8 @@ adminRouter.get('/drivers', async (req, res, next) => {
     const users = await user.find({ role: 'driver' });
     sendJSON(res, users);
   }
-  catch {
-    next;
+  catch (err) {
+    next();
   }
 });
 
@@ -85,8 +85,8 @@ adminRouter.get('/driver-routes/donation/:username', async (req, res, next) => {
     const donation = await rd.find({ username: req.params.username, reqOrDon: 'donation' });
     sendJSON(res, donation);
   }
-  catch {
-    next;
+  catch (err) {
+    next();
   }
 });
 
@@ -95,8 +95,8 @@ adminRouter.get('/driver-routes/requests/:username', async (req, res, next) => {
     const request = await rd.find({ username: req.params.username, reqOrDon: 'request' });
     sendJSON(res, request);
   }
-  catch {
-    next;
+  catch (err) {
+    next();
   }
 });
 
@@ -105,8 +105,8 @@ adminRouter.post('/food', async (req, res, next) => {
     let newFood = await food.create(req.body);
     sendJSON(res, newFood);
   }
-  catch {
-    next;
+  catch (err) {
+    next();
   }
 });
 
@@ -115,8 +115,8 @@ adminRouter.post('/stops', async (req, res, next) => {
     let newStop = await stop.create(req.body);
     sendJSON(res, newStop);
   }
-  catch {
-    next;
+  catch (err) {
+    next();
   }
 });
 
@@ -125,8 +125,8 @@ adminRouter.post('/driver-routes', async (req, res, next) => {
     const newDriverRoute = await dRoute.create(req.body);
     sendJSON(res, newDriverRoute);
   }
-  catch {
-    next;
+  catch (err) {
+    next();
   }
 });
 
@@ -135,8 +135,8 @@ adminRouter.post('/pantries', async (req, res, next) => {
     const newPantry = await pantry.create(req.body);
     sendJSON(res, newPantry);
   }
-  catch{
-    next;
+  catch (err) {
+    next();
   }
 });
 
@@ -149,8 +149,8 @@ adminRouter.post('/donators', async (req, res, next) => {
     );
     sendJSON(res, updatedDonator);
   }
-  catch {
-    next;
+  catch (err) {
+    next();
   }
 });
 
@@ -164,8 +164,8 @@ adminRouter.post('/drivers', async (req, res, next) => {
     );
     sendJSON(res, updatedDriver);
   }
-  catch {
-    next;
+  catch (err) {
+    next();
   }
 });
 
@@ -176,7 +176,7 @@ adminRouter.delete('/food/:id', async (req, res, next) => {
     res.statusMessage = 'No Content';
     res.end();
   }
-  catch {
+  catch (err) {
     next();
   }
 });
@@ -188,7 +188,7 @@ adminRouter.delete('/stops/:id', async (req, res, next) => {
     res.statusMessage = 'No Content';
     res.end();
   }
-  catch {
+  catch (err) {
     next();
   }
 });
@@ -200,7 +200,7 @@ adminRouter.delete('/driver-routes/:id', async (req, res, next) => {
     res.statusMessage = 'No Content';
     res.end();
   }
-  catch {
+  catch (err) {
     next();
   }
 });
@@ -212,7 +212,7 @@ adminRouter.delete('/pantries/:id', async (req, res, next) => {
     res.statusMessage = 'No Content';
     res.end();
   }
-  catch {
+  catch (err) {
     next();
   }
 });
@@ -224,7 +224,7 @@ adminRouter.delete('/users/:id', async (req, res, next) => {
     res.statusMessage = 'No Content';
     res.end();
   }
-  catch {
+  catch (err) {
     next();
   }
 });
@@ -236,7 +236,7 @@ adminRouter.delete('/donators/:id', async (req, res, next) => {
     res.statusMessage = 'No Content';
     res.end();
   }
-  catch {
+  catch (err) {
     next();
   }
 });
@@ -248,7 +248,7 @@ adminRouter.delete('/drivers/:id', async (req, res, next) => {
     res.statusMessage = 'No Content';
     res.end();
   }
-  catch {
+  catch (err) {
     next();
   }
 });
@@ -260,7 +260,7 @@ adminRouter.delete('/driver-routes/donation/:username/:id', async (req, res, nex
     res.statusMessage = 'No Content';
     res.end();
   }
-  catch {
+  catch (err) {
     next();
   }
 });
@@ -272,9 +272,9 @@ adminRouter.delete('/driver-routes/request/:username/:id', async (req, res, next
     res.statusMessage = 'No Content';
     res.end();
   }
-  catch {
+  catch (err) {
     next();
   }
 });
 
-
+export default adminRouter;
