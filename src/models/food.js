@@ -2,13 +2,13 @@
 //* Food Schema
 //--------------------------------------
 
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 
 //--------------------------------------------------
 //* Pantry schema will pull from here
 //--------------------------------------------------
 
-const foodSchema = new mongoose.Schema({
+const foodSchema = new Schema({
   food: { type: String, required: true, unique: true },
 });
 

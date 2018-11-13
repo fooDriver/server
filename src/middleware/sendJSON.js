@@ -1,4 +1,4 @@
-let sendJSON = (data, response) => {
+let sendJSON = (response, data) => {
   response.statusCode = 200;
   response.statusMessage = 'OK';
   response.setHeader('Content-Type', 'application/json');

@@ -2,7 +2,7 @@
 //* User Schema
 //--------------------------------------
 
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
@@ -14,7 +14,7 @@ import jwt from 'jsonwebtoken';
 //*       - Will pull from route schema
 //--------------------------------------------------
 
-const userSchema = new mongoose.Schema({
+const userSchema = new Schema({
   username: { type: String, required: true, unique: true },
   name: { type: String, required: true },
   password: { type: String, required: true },

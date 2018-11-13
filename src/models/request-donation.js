@@ -2,9 +2,9 @@
 //* Request and Donation Schema
 //--------------------------------------
 
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 
-const requestDonationSchema = new mongoose.Schema({
+const requestDonationSchema = new Schema({
   driver: String,
   address: String,
   food: String,

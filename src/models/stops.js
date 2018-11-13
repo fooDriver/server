@@ -2,9 +2,9 @@
 //* Stops Schema
 //--------------------------------------
 
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 
-const stopsSchema = new mongoose.Schema({
+const stopsSchema = new Schema({
   location: {
     type: String,
     required: true,
