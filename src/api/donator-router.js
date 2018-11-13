@@ -14,8 +14,9 @@ import pantry from '../models/pantry';
 import food from '../models/food';
 import stops from '../models/stops';
 import users from '../models/users';
+import reqDon from '../models/request-donation';
 
-
+import errorHandler from '../middleware/error';
 import sendJSON from '../middleware/sendJSON';
 
 
@@ -39,9 +40,9 @@ donRouter.get('/driver-routes', (req, res, next) => {
 // populate routes with stops
 donRouter.get('/driver-routes/:name', (req, res, next) => {
   users.findOne({
-      name: req.params.name,
+      username: req.params.name,
+      role: 'driver',
     })
-    .then()
     .then(data => {
       sendJSON(data, res);
     })
@@ -50,4 +51,16 @@ donRouter.get('/driver-routes/:name', (req, res, next) => {
 // sends address and food of the user
 donRouter.post('/driver-routes/donation/:name', (req, res, next) => {
 
+  let donate = {
+    driver: req.params.name,
+    address: req.users.address,
+    food: req.body,
+    reqOrDon: 'donation',
+  };
+
+  reqDon.create(donate)
+    .then(data => {
+      sendJSON(data, res);
+    })
+    .catch(next);
 });
