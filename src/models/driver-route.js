@@ -9,11 +9,7 @@ import mongoose, { Schema } from 'mongoose';
 //--------------------------------------------------
 
 const routeSchema = new Schema({
-  driver: {
-    type: Schema.Types.ObjectId,
-    ref: 'users',
-    autopopulate: true,
-  },
+  name: String,
 });
 
 routeSchema.plugin(require('mongoose-autopopulate'));
