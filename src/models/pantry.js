@@ -10,8 +10,19 @@ import mongoose from 'mongoose';
 //--------------------------------------------------
 
 const pantrySchema = new mongoose.Schema({
-  driver: { type: Schema.Types.ObjectId, ref: 'users' },
-  pantryItems: [{ type: Schema.Types.ObjectId, ref: 'food' }],
+  driver: {
+    type: Schema.Types.ObjectId,
+    ref: 'users',
+    autopopulate: true,
+  },
+  pantryItems: [{
+    type: Schema.Types.ObjectId,
+    ref: 'food',
+    autopopulate: true,
+  }],
 });
+
+pantrySchema.plugin(require('mongoose-autopopulate'));
+
 
 export default mongoose.model('pantry', pantrySchema);
