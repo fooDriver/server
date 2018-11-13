@@ -15,27 +15,23 @@ import stops from '../models/stops';
 import users from '../models/users';
 import reqDon from '../models/request-donation.js';
 
-
 import sendJSON from '../middleware/sendJSON';
-
 
 // routes
 userRouter.get('/driver-routes', async (req, res, next) => {
   try {
     let drivers = await user.find({ role: 'driver' });
     sendJSON(res, drivers);
-  }
-  catch {
+  } catch {
     next;
   }
 });
 
 userRouter.get('/driver-routes/:name', async (req, res, next) => {
   try {
-    let driver = await users.findOne({username: req.params.name});
+    let driver = await users.findOne({ username: req.params.name });
     sendJSON(res, driver);
-  }
-  catch {
+  } catch {
     next;
   }
 });
@@ -46,13 +42,12 @@ userRouter.post('/driver-routes/request/:name', async (req, res, next) => {
       driver: req.params.name,
       address: req.user.address,
       food: req.body,
-      reqOrDon: 'request',
-    }
-  
+      reqOrDon: 'request'
+    };
+
     let newRequest = await reqDon.create(request);
     sendJSON(res, newRequest);
-  }
-  catch {
+  } catch {
     next();
   }
 });
