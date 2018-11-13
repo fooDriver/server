@@ -29,7 +29,7 @@ const userSchema = new Schema({
 const capabilities = {
   user: ['read'],
   donator: ['read'],
-  driver: ['read, update, delete'],
+  driver: ['read', 'update', 'delete'],
   admin: ['create', 'read', 'update', 'delete']
 };
 
@@ -49,7 +49,6 @@ userSchema.pre('save', function(next) {
 //This is the basic authorization statics method for comparing username and password;
 
 userSchema.statics.authenticateBasic = function(auth) {
-  console.log('i am hit');
   let query = { username: auth.username };
   //this is mongo built in method to locate the item
   return this.findOne(query)

@@ -25,7 +25,6 @@ authRouter.post('/signup', (req, res, next) => {
     res.end();
   }
   let user = new User(req.body);
-  console.log(user, 'this is generated user');
   user
     .save()
     .then(user => res.send(user.generateToken()))
