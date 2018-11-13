@@ -17,7 +17,6 @@ export default capability => {
     try {
       //this line is to seperate the header into the auth type and the auth string which is the token required to login
       let [authType, authString] = req.headers.authorization.split(/\s+/);
-
       // Switch case for the different type of authorization
       switch (authType.toLowerCase()) {
         case 'basic':
@@ -39,7 +38,6 @@ export default capability => {
         username,
         password
       };
-
       return User.authenticateBasic(auth).then(user => authenticate(user));
     }
 
