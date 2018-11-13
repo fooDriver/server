@@ -17,9 +17,49 @@ let sendJSON = (res, data) => {
   res.end();
 };
 
+adminRouter.get('/food', async (req, res, next) => {
+  try {
+    const foods = await food.find({});
+    sendJSON(res, foods);
+  }
+  catch {
+    next;
+  }
+});
+
+adminRouter.get('/stops', async (req, res, next) => {
+  try {
+    const routeStops = await stop.find({});
+    sendJSON(res, routeStops); 
+  }
+  catch {
+    next;
+  }
+});
+
+adminRouter.get('/driver-routes', async (req, res, next) => {
+  try {
+    const driverRoutes = await dRoute.find({});
+    sendJSON(res, driverRoutes);
+  }
+  catch {
+    next;
+  }
+});
+
+adminRouter.get('/pantries', async (req, res, next) => {
+  try {
+    const pantries = await pantry.find({});
+    sendJSON(res, pantries);
+  }
+  catch {
+    next;
+  }
+});
+
 adminRouter.get('/users', async (req, res, next) => {
   try {
-    let users = await user.find({ role: 'user' });
+    const users = await user.find({ role: 'user' });
     sendJSON(res, users);
   }
   catch {
@@ -29,7 +69,7 @@ adminRouter.get('/users', async (req, res, next) => {
 
 adminRouter.get('/donators', async (req, res, next) => {
   try {
-    let users = await user.find({ role: 'donator' });
+    const users = await user.find({ role: 'donator' });
     sendJSON(res, users);
   }
   catch {
@@ -39,7 +79,7 @@ adminRouter.get('/donators', async (req, res, next) => {
 
 adminRouter.get('/drivers', async (req, res, next) => {
   try {
-    let users = await user.find({ role: 'driver' });
+    const users = await user.find({ role: 'driver' });
     sendJSON(res, users);
   }
   catch {
@@ -49,7 +89,7 @@ adminRouter.get('/drivers', async (req, res, next) => {
 
 adminRouter.get('/driver-routes/donation/:username', async (req, res, next) => {
   try {
-    let donation = await rd.find({ username: req.params.username, reqOrDon: 'donation' });
+    const donation = await rd.find({ username: req.params.username, reqOrDon: 'donation' });
     sendJSON(res, donation);
   }
   catch {
@@ -59,13 +99,35 @@ adminRouter.get('/driver-routes/donation/:username', async (req, res, next) => {
 
 adminRouter.get('/driver-routes/requests/:username', async (req, res, next) => {
   try {
-    let request = await rd.find({ username: req.params.username, reqOrDon: 'request' });
+    const request = await rd.find({ username: req.params.username, reqOrDon: 'request' });
     sendJSON(res, request);
   }
   catch {
     next;
   }
 });
+
+adminRouter.post('/food', async (req, res, next) => {
+  try {
+    let newFood = await food.create(req.body);
+    sendJSON(res, newFood);
+  }
+  catch {
+    next;
+  }
+});
+
+adminRouter.post('/stops', async (req, res, next) => {
+  try {
+    let newStop = await stop.create(req.body);
+    sendJSON(res, newStop);
+  }
+  catch {
+    next;
+  }
+});
+
+
 
 adminRouter.put('/users', async (req, res, next) => {
   try {
