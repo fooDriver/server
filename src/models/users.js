@@ -46,9 +46,10 @@ userSchema.pre('save', function(next) {
     });
 });
 
-//This is the basic authorization static method for comparing username and password;
+//This is the basic authorization statics method for comparing username and password;
 
-userSchema.static.authenticateBasic = function(auth) {
+userSchema.statics.authenticateBasic = function(auth) {
+  console.log('i am hit');
   let query = { username: auth.username };
   //this is mongo built in method to locate the item
   return this.findOne(query)
@@ -56,9 +57,9 @@ userSchema.static.authenticateBasic = function(auth) {
     .catch(error => error);
 };
 
-//This is the bearer authorization static method to compare token entered in;
+//This is the bearer authorization statics method to compare token entered in;
 
-userSchema.static.authenticateToken = function(token) {
+userSchema.statics.authenticateToken = function(token) {
   let parsedToken = jwt.verify(token, process.env.secret);
   let query = { _id: parsedToken.id };
   return this.findOne(query)
@@ -84,7 +85,7 @@ userSchema.methods.comparePassword = function(password) {
 
 //This is a method that is inherited by all user object to generate a token for bearer verification
 
-userSchema.method.generateToken = function() {
+userSchema.methods.generateToken = function() {
   let tokenData = {
     id: this._id,
     capabilities: capabilities[this.role]
