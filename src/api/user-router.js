@@ -20,12 +20,24 @@ import sendJSON from '../middleware/sendJSON';
 
 
 // routes
-userRouter.get('/driver-routes', (req, res, next) => {
-  res.send('hello user checking out driver routes');
+userRouter.get('/driver-routes', async (req, res, next) => {
+  try {
+    let users = await user.find({ role: 'driver' });
+    sendJSON(res, users);
+  }
+  catch {
+    next;
+  }
 });
 
-userRouter.get('/driver-routes/:name', (req, res, next) => {
-  res.send('hello user checking out driver routes again');
+userRouter.get('/driver-routes/:name', async (req, res, next) => {
+  try {
+    let driver = await users.findOne({username: req.params.name});
+    sendJSON(res, driver);
+  }
+  catch {
+    next;
+  }
 });
 
 userRouter.post('/driver-routes/request/:name', (req, res, next) => {
