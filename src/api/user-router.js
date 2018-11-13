@@ -13,7 +13,7 @@ import pantry from '../models/pantry';
 import food from '../models/food';
 import stops from '../models/stops';
 import users from '../models/users';
-
+import reqDon from '../models/request-donation.js';
 
 
 import sendJSON from '../middleware/sendJSON';
@@ -22,8 +22,8 @@ import sendJSON from '../middleware/sendJSON';
 // routes
 userRouter.get('/driver-routes', async (req, res, next) => {
   try {
-    let users = await user.find({ role: 'driver' });
-    sendJSON(res, users);
+    let drivers = await user.find({ role: 'driver' });
+    sendJSON(res, drivers);
   }
   catch {
     next;
@@ -40,6 +40,19 @@ userRouter.get('/driver-routes/:name', async (req, res, next) => {
   }
 });
 
-userRouter.post('/driver-routes/request/:name', (req, res, next) => {
-  res.send('Whuzzup user posting to driver routes');
+userRouter.post('/driver-routes/request/:name', async (req, res, next) => {
+  try {
+    let request = {
+      driver: req.params.name,
+      address: req.user.address,
+      food: req.body,
+      reqOrDon: 'request',
+    }
+  
+    let newRequest = await reqDon.create(request);
+    sendJSON(res, newRequest);
+  }
+  catch {
+    next();
+  }
 });
