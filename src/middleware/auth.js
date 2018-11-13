@@ -5,7 +5,7 @@
 'use strict';
 
 // Dependencies
-import User from '../models/user.js';
+import User from '../models/users.js';
 
 //--------------------------------------
 //* Auth
