@@ -52,7 +52,7 @@ afterAll(stopDB);
 //   await User.deleteMany({});
 // });
 
-describe('Admin router', () => {
+xdescribe('Admin router', () => {
 
   //---------------------------------
   //    POST ROUTES
