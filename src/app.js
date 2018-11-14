@@ -12,6 +12,7 @@ import express from 'express';
 import authRouter from './api/auth-router.js';
 import driverRouter from './api/driver-router.js';
 import adminRouter from './api/adminRouter.js';
+import donRouter from './api/donator-router.js';
 
 // Start Express
 const app = express();
@@ -21,6 +22,8 @@ app.use(express.json()); // json parser
 app.use(authRouter);
 app.use(adminRouter);
 app.use(driverRouter);
+app.use(donRouter);
+
 // app.use(notFound);
 // app.use(serverError);
 

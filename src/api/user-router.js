@@ -20,18 +20,22 @@ import sendJSON from '../middleware/sendJSON';
 // routes
 userRouter.get('/driver-routes', auth('user'), async (req, res, next) => {
   try {
-    let drivers = await user.find({ role: 'driver' });
+    let drivers = await user.find({
+      role: 'driver'
+    });
     sendJSON(res, drivers);
-  } catch(error) {
+  } catch (error) {
     next();
   }
 });
 
 userRouter.get('/driver-routes/:name', auth('user'), async (req, res, next) => {
   try {
-    let driver = await users.findOne({ username: req.params.name });
+    let driver = await users.findOne({
+      username: req.params.name
+    });
     sendJSON(res, driver);
-  } catch(error) {
+  } catch (error) {
     next();
   }
 });
@@ -47,7 +51,9 @@ userRouter.post('/driver-routes/request/:name', auth('user'), async (req, res, n
 
     let newRequest = await reqDon.create(request);
     sendJSON(res, newRequest);
-  } catch (error){
+  } catch (error) {
     next();
   }
 });
+
+export default userRouter;
