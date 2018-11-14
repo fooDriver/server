@@ -22,8 +22,8 @@ userRouter.get('/driver-routes', auth('user'), async (req, res, next) => {
   try {
     let drivers = await user.find({ role: 'driver' });
     sendJSON(res, drivers);
-  } catch {
-    next;
+  } catch(error) {
+    next();
   }
 });
 
@@ -31,8 +31,8 @@ userRouter.get('/driver-routes/:name', auth('user'), async (req, res, next) => {
   try {
     let driver = await users.findOne({ username: req.params.name });
     sendJSON(res, driver);
-  } catch {
-    next;
+  } catch(error) {
+    next();
   }
 });
 
@@ -47,7 +47,7 @@ userRouter.post('/driver-routes/request/:name', auth('user'), async (req, res, n
 
     let newRequest = await reqDon.create(request);
     sendJSON(res, newRequest);
-  } catch {
+  } catch (error){
     next();
   }
 });

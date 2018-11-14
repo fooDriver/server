@@ -60,7 +60,7 @@ userSchema.statics.authenticateBasic = function(auth) {
 //This is the bearer authorization statics method to compare token entered in;
 
 userSchema.statics.authenticateToken = function(token) {
-  let parsedToken = jwt.verify(token, process.env.secret);
+  let parsedToken = jwt.verify(token, process.env.SECRET);
   let query = { _id: parsedToken.id };
   return this.findOne(query)
     .then(user => {

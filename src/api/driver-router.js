@@ -18,12 +18,14 @@ import users from '../models/users';
 import sendJSON from '../middleware/sendJSON';
 
 // routes
-driverRouter.get('/driver-routes/:name', auth('driver'), (req, res, next) => {
+
+driverRouter.get('/driver-routes/:name', auth('driver'), async (req, res, next) => {
   let driver = await users.findOne({username: req.params.name});
   res.send(driver);
 });
 
-driverRouter.post('/driver-routes/:name', auth('driver'), (req, res, next) => {
+
+driverRouter.post('/driver-routes/:name', auth('driver'), async (req, res, next) => {
   let driver = await users.findOne({username: req.params.name});
   driver.pantry.push(req.body.id);
   await driver.save();
@@ -34,7 +36,9 @@ driverRouter.post('/driver-routes/:name', auth('driver'), (req, res, next) => {
 
 // });
 
-driverRouter.delete('/driver-routes/:name/:foodid', auth('driver'), (req, res, next) => {
+
+driverRouter.delete('/driver-routes/:name/:foodid', auth('driver'), async(req, res, next) => {
+
   let driver = await users.findOne({username: req.params.name});
   const index = driver.pantry.findIndex(food => JSON.stringify(food._id) == JSON.stringify(req.params.foodid));
   if (!index) {
