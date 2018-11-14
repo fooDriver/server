@@ -21,6 +21,7 @@ import sendJSON from '../middleware/sendJSON';
 //This route is for generic user puts a stopper for users to determine roles
 authRouter.post('/signup', (req, res, next) => {
   if (req.body.role) {
+    res.statusCode = 403;
     res.send(`Admin access only, please do not select role`);
     res.end();
   }
@@ -41,20 +42,6 @@ authRouter.post('/signup/admin', auth('admin'), (req, res, next) => {
   //}
 });
 
-//This route is for testing, need specific key-phrase for tests
-
-authRouter.post('/signup/test', (req, res, next) => {
-  if (req.body.test === 'test') {
-    delete req.body.test;
-    let user = new User(req.body);
-    user
-      .save()
-      .then(user => res.send(user.generateToken()))
-      .catch(next);
-  }
-  res.end();
-});
-
 // SignIn route to grant security token to the cookie
 authRouter.post('/signin', auth(), (req, res, next) => {
   res.cookie('Token', req.token);
@@ -64,5 +51,4 @@ authRouter.post('/signin', auth(), (req, res, next) => {
 //--------------------------------------
 //* Page Router
 //--------------------------------------
-
 export default authRouter;
