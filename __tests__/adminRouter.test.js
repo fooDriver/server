@@ -1,20 +1,20 @@
-'use strict';
+// 'use strict';
 
-import mongoose from 'mongoose';
-import supertest from 'supertest';
-import app from '../src/app';
+// import mongoose from 'mongoose';
+// import supertest from 'supertest';
+// import app from '../src/app';
 
-import User from '../src/models/users';
-import auth from '../src/middleware/auth';
-import auth from '../src/middleware/404';
-import auth from '../src/middleware/error';
-import auth from '../src/middleware/sendJSON';
+// import User from '../src/models/users';
+// import auth from '../src/middleware/auth';
+// import auth from '../src/middleware/404';
+// import auth from '../src/middleware/error';
+// import auth from '../src/middleware/sendJSON';
 
 
-describe('Admin router', () => {
-  it('throws an error if no authorization header present', () => {});
-  it('returns an error when username and password are both not present', () => {});
-  it('returns an error when the username is not present', () => {});
-  it('returns an error when the password is not present', () => {});
-  it('passes on a token when a username and password are present', (done) => {});
-});
+// describe('Admin router', () => {
+//   it('throws an error if no authorization header present', () => {});
+//   it('returns an error when username and password are both not present', () => {});
+//   it('returns an error when the username is not present', () => {});
+//   it('returns an error when the password is not present', () => {});
+//   it('passes on a token when a username and password are present', (done) => {});
+// });
