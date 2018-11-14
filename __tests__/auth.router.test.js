@@ -11,6 +11,7 @@ import User from '../src/models/users';
 
 // Test Prep
 process.env.SECRET = 'jest hack';
+
 const mockRequest = supergoose(app);
 
 beforeAll(startDB);

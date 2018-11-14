@@ -14,12 +14,13 @@ import pantry from '../models/pantry';
 import food from '../models/food';
 import stops from '../models/stops';
 import users from '../models/users';
-
+import auth from '../middleware/auth.js';
 import sendJSON from '../middleware/sendJSON';
 
 // routes
 
 driverRouter.get('/driver-routes/:name', auth('driver'), async (req, res, next) => {
+  console.log(req.params, "IM HEREEEEEEEE");
   let driver = await users.findOne({username: req.params.name});
   res.send(driver);
 });
@@ -50,3 +51,5 @@ driverRouter.delete('/driver-routes/:name/:foodid', auth('driver'), async(req, r
   res.statusCode = 204;
   res.send('That food was deleted');
 });
+
+export default driverRouter;
