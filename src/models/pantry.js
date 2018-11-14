@@ -22,10 +22,6 @@ const pantrySchema = new Schema({
   }],
 });
 
-// pantrySchema.pre('create', function(next) {
-//   this.populate('pantryItems')
-// })
-
 pantrySchema.plugin(require('mongoose-autopopulate'));
 
 

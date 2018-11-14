@@ -18,7 +18,7 @@ import reqDon from '../models/request-donation.js';
 import sendJSON from '../middleware/sendJSON';
 
 // routes
-userRouter.get('/driver-routes', async (req, res, next) => {
+userRouter.get('/driver-routes', auth('user'), async (req, res, next) => {
   try {
     let drivers = await user.find({ role: 'driver' });
     sendJSON(res, drivers);
@@ -27,7 +27,7 @@ userRouter.get('/driver-routes', async (req, res, next) => {
   }
 });
 
-userRouter.get('/driver-routes/:name', async (req, res, next) => {
+userRouter.get('/driver-routes/:name', auth('user'), async (req, res, next) => {
   try {
     let driver = await users.findOne({ username: req.params.name });
     sendJSON(res, driver);
@@ -36,7 +36,7 @@ userRouter.get('/driver-routes/:name', async (req, res, next) => {
   }
 });
 
-userRouter.post('/driver-routes/request/:name', async (req, res, next) => {
+userRouter.post('/driver-routes/request/:name', auth('user'), async (req, res, next) => {
   try {
     let request = {
       driver: req.params.name,
