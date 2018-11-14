@@ -1,4 +1,9 @@
+//--------------------------------------
+//* Setup
+//--------------------------------------
+// Safety Googles ON
 'use strict';
+
 // Dependencies
 require('dotenv').config();
 import supergoose, {
@@ -35,9 +40,7 @@ beforeAll(async () => {
     name: 'Snoopy',
     password: 'woodstock',
     role: 'driver',
-  }
-  let newDriver = new User(driverInfo);
-  driver = await newDriver.save();
+  };
 
 });
 afterAll(stopDB);
@@ -45,12 +48,18 @@ beforeEach(async () => {
   await User.deleteMany({});
 });
 
+// Define Driver
+let newDriver = new User(driverInfo);
+driver = await newDriver.save();
 
+//--------------------------------------
+//* Testing
+//--------------------------------------
 describe('Donator router', () => {
   it('should get the drivers', async () => {
     let response = await mockRequest.get(`/driver-routes/${driverInfo.name}`).auth(donToken);
     console.log('donToken', donToken);
     expect().toBe();
-  })
+  });
 
 });

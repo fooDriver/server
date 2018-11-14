@@ -29,6 +29,7 @@ export default capability => {
     } catch (err) {
       return failToAuth();
     }
+    
     //helper for basic authentication
     function authBasic(authString) {
       let base64Buffer = Buffer.from(authString, 'base64');

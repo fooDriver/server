@@ -11,6 +11,7 @@ import express from 'express';
 // import serverError from './middleware/error.js'; // 500 server error
 import authRouter from './api/auth-router.js';
 import adminRouter from './api/adminRouter.js';
+import donRouter from './api/donator-router.js';
 
 // Start Express
 const app = express();
@@ -19,6 +20,7 @@ const app = express();
 app.use(express.json()); // json parser
 app.use(authRouter);
 app.use(adminRouter);
+app.use(donRouter);
 // app.use(notFound);
 // app.use(serverError);
 
