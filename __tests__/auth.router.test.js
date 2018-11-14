@@ -7,8 +7,6 @@ import auth from '../src/api/auth-router';
 import User from '../src/models/users';
 
 
-process.env.SECRET = 'jest hack';
-
 
 const mockRequest = supergoose(app);
 
