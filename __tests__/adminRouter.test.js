@@ -66,12 +66,28 @@ describe('Admin router', () => {
   });
 
   it('should post route stops', async () => {
-    // let response = await mockRequest
-    //   .post('/stops')
-    //   .auth(token, {type: 'bearer'})
-    //   .send({food:'hummus'});
+    const routeInfo = {
+      name: 'Route A',
+      driver: driver._id,
+    }
 
-    // expect(response.body.food).toBe('hummus');
+    let newRoute = await mockRequest
+      .post('/driver-routes')
+      .auth(adminToken, {type: 'bearer'})
+      .send(routeInfo);
+
+    const stopInfo = {
+      location: '5th and Pine',
+      route: newRoute._id,
+    }
+
+    let newStop = await mockRequest
+      .post('/stops')
+      .auth(adminToken, {type: 'bearer'})
+      .send(stopInfo);
+
+    console.log(newStop.body);
+    expect(newStop.body.location).toBe(stopInfo.location);
   });
 
   it('should post food into pantries and assign a driver', async () => {
@@ -79,15 +95,18 @@ describe('Admin router', () => {
   });
 
   it('should post a driver-route and assign a driver', async () => {
-    routeInfo = {
+    const routeInfo = {
       name: 'Route A',
       driver: driver._id,
     }
+
     let response = await mockRequest
       .post('/driver-routes')
       .auth(adminToken, {type: 'bearer'})
       .send(routeInfo);
+
     expect(response.body.name).toBe('Route A');
+    expect(response.body.driver).toBe(driver._id);
   });
 
   //---------------------------------
