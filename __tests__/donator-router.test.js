@@ -21,45 +21,60 @@ import auth from '../src/middleware/auth';
 process.env.SECRET = 'jest hack';
 const mockRequest = supergoose(app);
 
+// Test Users
 let donToken;
 let driver;
+let finalDonator;
 
 beforeAll(async () => {
   await startDB();
   let donator = {
-    username: 'Charlie',
-    name: 'Brown',
+    username: 'cbrown',
+    name: 'Charlie Brown',
     password: 'woodstock',
     role: 'donator'
   };
-  let newDonator = await User.create(donator);
-  donToken = newDonator.generateToken();
+
+  let newDonator = new User(donator);
+  finalDonator = await newDonator.save();
+  donToken = finalDonator.generateToken();
+  console.log(donToken);
 
   let driverInfo = {
-    username: 'SnoopyD',
-    name: 'Snoopy',
+    username: 'snoopyD',
+    name: 'Snoopy Dog',
     password: 'woodstock',
-    role: 'driver',
+    role: 'driver'
   };
 
+  // Define Driver
+  let newDriver = new User(driverInfo);
+  driver = await newDriver.save();
 });
 afterAll(stopDB);
 beforeEach(async () => {
   await User.deleteMany({});
 });
 
-// Define Driver
-let newDriver = new User(driverInfo);
-driver = await newDriver.save();
-
 //--------------------------------------
 //* Testing
 //--------------------------------------
 describe('Donator router', () => {
-  it('should get the drivers', async () => {
-    let response = await mockRequest.get(`/driver-routes/${driverInfo.name}`).auth(donToken);
-    console.log('donToken', donToken);
-    expect().toBe();
+  it('should get all drivers', async () => {
+    let response = await mockRequest.get(`/driver-routes`).auth(donToken,{type:'bearer'});
+    
+    console.log(finalDonator);
+    console.log(response);
+    
+    expect(response.status).toBe(200);
+    expect(response.text).toBe();
+  });
+
+  xit('should get a specific driver by name', async () => {
+    let response = await mockRequest.get(`/driver-routes/${driver.name}`).auth(donToken,{type:'bearer'});
+    console.log(response);
+    expect(response.status).toBe(200);
+    expect(response.text).toBe('');
   });
 
 });

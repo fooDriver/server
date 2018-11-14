@@ -44,9 +44,10 @@ export default capability => {
 
     //helper for bearer authetication
     function authBearer(authString) {
-      return User.authenticateToken(authString).then(user =>
-        authenticate(user)
-      );
+      return User.authenticateToken(authString)
+        .then(user =>
+          authenticate(user)
+        );
     }
 
     //helper to determine the user's role
