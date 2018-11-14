@@ -15,6 +15,7 @@ import food from '../models/food';
 import stops from '../models/stops';
 import users from '../models/users';
 import reqDon from '../models/request-donation';
+import auth from '../middleware/auth';
 
 
 import errorHandler from '../middleware/error';
@@ -65,3 +66,5 @@ donRouter.post('/driver-routes/donation/:name', auth('user'), (req, res, next) =
     })
     .catch(next);
 });
+
+export default donRouter;
