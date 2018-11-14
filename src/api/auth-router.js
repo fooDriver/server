@@ -32,12 +32,13 @@ authRouter.post('/signup', (req, res, next) => {
 });
 
 //This route is for admin, it is used to create a a user with any role
-authRouter.post('/signup/admin', auth('create'), (req, res, next) => {
+authRouter.post('/signup/admin', auth('admin'), (req, res, next) => {
   let user = new User(req.body);
-  user
+    user
     .save()
     .then(user => res.send(user.generateToken()))
     .catch(next);
+  //}
 });
 
 // TODO: Review

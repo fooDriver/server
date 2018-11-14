@@ -18,6 +18,7 @@ const userSchema = new Schema({
   username: { type: String, required: true, unique: true },
   name: { type: String, required: true },
   password: { type: String, required: true },
+  address: String,
   role: {
     type: String,
     required: true,
@@ -27,10 +28,10 @@ const userSchema = new Schema({
 });
 
 const capabilities = {
-  user: ['read'],
-  donator: ['read'],
-  driver: ['read', 'update', 'delete'],
-  admin: ['create', 'read', 'update', 'delete']
+  user: ['user'],
+  donator: ['user'],
+  driver: ['driver'],
+  admin: ['admin'],
 };
 
 //This is the save function for signup use .save method to access save functionality on the signup
