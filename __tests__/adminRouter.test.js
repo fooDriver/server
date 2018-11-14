@@ -62,6 +62,7 @@ describe('Admin router', () => {
       .post('/food')
       .auth(adminToken, {type: 'bearer'})
       .send({food:'hummus'});
+
     expect(response.body.food).toBe('hummus');
   });
 
@@ -90,8 +91,19 @@ describe('Admin router', () => {
     expect(newStop.body.route).toBe(stopInfo.route);
   });
 
-  it('should post food into pantries and assign a driver', async () => {
+  it('should create an empty pantry and assign a driver', async () => {
+    const pantryInfo = {
+      driver: driver._id,
+      pantryItems: [],
+    }
 
+    let newPantry = await mockRequest
+      .post('/pantries')
+      .auth(adminToken, {type: 'bearer'})
+      .send(pantryInfo);
+    
+      expect(newPantry.body.driver).toBe(pantryInfo.driver._id.toString());
+      expect(newPantry.body.pantryItems.length).toBe(0);
   });
 
   it('should post a driver-route and assign a driver', async () => {
@@ -113,11 +125,58 @@ describe('Admin router', () => {
   //    GET ROUTES
   //---------------------------------
   it('should get all food', async () => {
+    await mockRequest
+      .post('/food')
+      .auth(adminToken, {type: 'bearer'})
+      .send({food:'hummus'});
 
+    await mockRequest
+      .post('/food')
+      .auth(adminToken, {type: 'bearer'})
+      .send({food:'carrots'});
+
+    let response = await mockRequest
+      .get('/food')
+      .auth(adminToken, {type: 'bearer'});
+
+    expect(response.body.length).toBe(2);
   });
 
   it('should get all route stops', async () => {
+    const routeInfo = {
+      name: 'Route A',
+      driver: driver._id,
+    }
 
+    let newRoute = await mockRequest
+      .post('/driver-routes')
+      .auth(adminToken, {type: 'bearer'})
+      .send(routeInfo);
+
+    const stopOneInfo = {
+      location: '5th and Pine',
+      route: newRoute._id,
+    }
+    const stopTwoInfo = {
+      location: '4th and Broad',
+      route: newRoute._id,
+    }
+
+    await mockRequest
+      .post('/stops')
+      .auth(adminToken, {type: 'bearer'})
+      .send(stopOneInfo);
+
+    await mockRequest
+      .post('/stops')
+      .auth(adminToken, {type: 'bearer'})
+      .send(stopTwoInfo);
+
+    let response = await mockRequest
+      .get('/stops')
+      .auth(adminToken, {type: 'bearer'});
+
+    expect(response.body.length).toBe(2);
   });
 
   it('should get all driver-routes', async () => {
@@ -129,7 +188,11 @@ describe('Admin router', () => {
   });
 
   it('should get drivers', async () => {
+    let response = await mockRequest
+      .get('/drivers')
+      .auth(adminToken, {type: 'bearer'});
 
+    expect(response.body.length).toBe(1);
   });
 
   it('should get donators', async () => {
@@ -152,15 +215,69 @@ describe('Admin router', () => {
   //    DELETE ROUTES
   //---------------------------------
   it('should delete food', async () => {
+    let hummus = await mockRequest
+      .post('/food')
+      .auth(adminToken, {type: 'bearer'})
+      .send({food:'hotdogs'});
 
+    await mockRequest
+      .post('/food')
+      .auth(adminToken, {type: 'bearer'})
+      .send({food:'chicken'});
+      
+    let deleted = await mockRequest
+      .delete(`/food/${hummus.body._id}`)
+      .auth(adminToken, {type: 'bearer'});
+
+    expect(deleted.status).toBe(204);
   });
 
   it('should delete a stop', async () => {
+    const routeInfo = {
+      name: 'Route B',
+      driver: driver._id,
+    }
 
+    let newRoute = await mockRequest
+      .post('/driver-routes')
+      .auth(adminToken, {type: 'bearer'})
+      .send(routeInfo);
+
+    const stopOneInfo = {
+      location: '3rd and Pine',
+      route: newRoute._id,
+    }
+    const stopTwoInfo = {
+      location: '2nd and Broad',
+      route: newRoute._id,
+    }
+
+    await mockRequest
+      .post('/stops')
+      .auth(adminToken, {type: 'bearer'})
+      .send(stopOneInfo);
+
+    let stopTwo = await mockRequest
+      .post('/stops')
+      .auth(adminToken, {type: 'bearer'})
+      .send(stopTwoInfo);
+
+    let response = await mockRequest
+      .delete(`/stops/${stopTwo.body._id}`)
+      .auth(adminToken, {type: 'bearer'});
+
+    expect(response.status).toBe(204);
+
+    let newStops = await mockRequest
+      .get('/stops')
+      .auth(adminToken, {type: 'bearer'});
+
+    //NOTE: this is three instead of one from the tests earlier
+    expect(newStops.body.length).toBe(3);
   });
 
   it('should delete a driver-route', async () => {
-
+    
   });
 
   it('should delete a pantry', async () => {

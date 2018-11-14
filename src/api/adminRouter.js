@@ -30,7 +30,7 @@ adminRouter.get('/stops', auth('admin'), async (req, res, next) => {
   }
 });
 
-adminRouter.get('/driver-routes', auth('admin'), async (req, res, next) => {
+adminRouter.get('/driver-routes/admin', auth('admin'), async (req, res, next) => {
   try {
     const driverRoutes = await dRoute.find({});
     sendJSON(res, driverRoutes);
