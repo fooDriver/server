@@ -86,8 +86,8 @@ describe('Admin router', () => {
       .auth(adminToken, {type: 'bearer'})
       .send(stopInfo);
 
-    console.log(newStop.body);
     expect(newStop.body.location).toBe(stopInfo.location);
+    expect(newStop.body.route).toBe(stopInfo.route);
   });
 
   it('should post food into pantries and assign a driver', async () => {
@@ -106,7 +106,7 @@ describe('Admin router', () => {
       .send(routeInfo);
 
     expect(response.body.name).toBe('Route A');
-    expect(response.body.driver).toBe(driver._id);
+    expect(response.body.driver).toBe(routeInfo.driver._id.toString());
   });
 
   //---------------------------------
