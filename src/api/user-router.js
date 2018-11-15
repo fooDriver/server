@@ -18,9 +18,8 @@ import auth from '../middleware/auth.js';
 //* Routes
 //--------------------------------------
 userRouter.get('/user/driver-routes', auth('user'), async (req, res, next) => {
-  console.log('userRouter');
   try {
-    let drivers = await user.find({
+    let drivers = await users.find({
       role: 'driver'
     });
     sendJSON(res, drivers);
@@ -28,7 +27,6 @@ userRouter.get('/user/driver-routes', auth('user'), async (req, res, next) => {
     next();
   }
 });
-console.log('process.env.port'); 
 userRouter.get('/user/driver-routes/:name', auth('user'), async (req, res, next) => {
   try {
     let driver = await users.findOne({
@@ -42,16 +40,22 @@ userRouter.get('/user/driver-routes/:name', auth('user'), async (req, res, next)
 
 userRouter.post('/user/driver-routes/request/:name', auth('user'), async (req, res, next) => {
   try {
+
+    const driver = await users.findOne({
+      username: req.params.name,
+    });
+
     let request = {
-      driver: req.params.name,
+      driver: driver._id,
       address: req.user.address,
-      food: req.body,
+      food: req.body.food,
       reqOrDon: 'request'
     };
 
     let newRequest = await reqDon.create(request);
     sendJSON(res, newRequest);
-  } catch (error) {
+  } 
+  catch (error) {
     next();
   }
 });
