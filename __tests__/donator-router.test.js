@@ -14,7 +14,6 @@ import {
   app
 } from '../src/app';
 import User from '../src/models/users';
-import donRep from '../src/models/request-donation.js';
 
 // Test Prep
 //process.env.SECRET = 'jest hack';
