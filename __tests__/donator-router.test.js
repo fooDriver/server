@@ -17,7 +17,7 @@ import User from '../src/models/users';
 import donRep from '../src/models/request-donation.js';
 
 // Test Prep
-//process.env.SECRET = 'jest hack';
+process.env.SECRET = 'jest hack';
 const mockRequest = supergoose(app);
 
 // Test Users
@@ -84,7 +84,6 @@ describe('Donator router', () => {
       .post(`/donator/driver-routes/donation/${driver.username}`)
       .auth(donToken,{type:'bearer'})
       .send({food: 'tortillas'});
-
     expect(response.body.driver).toBe(driver._id.toString());
   })
 
