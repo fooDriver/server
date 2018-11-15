@@ -13,7 +13,6 @@ import authRouter from './api/auth-router.js';
 import driverRouter from './api/driver-router.js';
 import adminRouter from './api/adminRouter.js';
 import donRouter from './api/donator-router.js';
-import auth from './middleware/auth.js';
 
 // Start Express
 const app = express();
@@ -21,7 +20,6 @@ const app = express();
 // Middleware
 app.use(express.json()); // json parser
 app.use(authRouter);
-app.use(auth);
 app.use(adminRouter);
 app.use(driverRouter);
 app.use(donRouter);

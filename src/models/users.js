@@ -30,8 +30,8 @@ const userSchema = new Schema({
 const capabilities = {
   user: ['user'],
   donator: ['user'],
-  driver: ['driver'],
-  admin: ['admin'],
+  driver: ['driver', 'user'],
+  admin: ['admin', 'driver', 'user'],
 };
 
 //This is the save function for signup use .save method to access save functionality on the signup
