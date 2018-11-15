@@ -21,32 +21,45 @@ import sendJSON from '../middleware/sendJSON';
 //* Routes
 //--------------------------------------
 driverRouter.get('/driver/driver-routes/:name', auth('driver'), async (req, res, next) => {
-  let driver = await users.findOne({username: req.params.name});
-  res.send(driver);
+  try{
+    let driver = await users.findOne({username: req.params.name});
+    res.send(driver);
+  }
+  catch(err) {
+    next();
+  }
 });
 
 driverRouter.post('/driver/driver-routes/:name', auth('driver'), async (req, res, next) => {
-  let driver = await users.findOne({username: req.params.name});
-  let driverPantry = await pantry.findOne({driver: driver._id});
-  driverPantry.pantryItems.push(req.body._id);
-  await driverPantry.save();
-  res.send(driverPantry);
+  try{
+    let driver = await users.findOne({username: req.params.name});
+    let driverPantry = await pantry.findOne({driver: driver._id});
+    driverPantry.pantryItems.push(req.body._id);
+    await driverPantry.save();
+    res.send(driverPantry);
+  }
+  catch (err) {
+    next();
+  }
 });
 
 driverRouter.delete('/driver/driver-routes/:name/:foodid', auth('driver'), async(req, res, next) => {
-  let driver = await users.findOne({username: req.params.name});
-  let driverPantry = await pantry.findOne({driver: driver._id});
-  const index = driverPantry.pantryItems.findIndex(food => JSON.stringify(food._id) == JSON.stringify(req.params.foodid));
-  console.log(index);
-  if (index === -1) {
-    console.log('no index');
-    res.end( 'Does not exist!');
+  try{
+    let driver = await users.findOne({username: req.params.name});
+    let driverPantry = await pantry.findOne({driver: driver._id});
+    const index = driverPantry.pantryItems.findIndex(food => JSON.stringify(food._id) == JSON.stringify(req.params.foodid));
+    if (index === -1) {
+      res.end( 'Does not exist!');
+    }
+    driverPantry.pantryItems.splice(index,1);
+    await driverPantry.save();
+  
+    res.statusCode = 204;
+    res.send('That food was deleted');
   }
-  driverPantry.pantryItems.splice(index,1);
-  await driverPantry.save();
-
-  res.statusCode = 204;
-  res.send('That food was deleted');
+  catch (err) {
+    next();
+  }
 });
 
 //--------------------------------------

@@ -1,8 +1,7 @@
 'use strict';
 
 require('dotenv').config();
-import mongoose from 'mongoose';
-import supertest from 'supertest';
+
 import { app } from '../src/app';
 import supergoose, { startDB, stopDB } from './supergoose.js';
 
@@ -10,16 +9,23 @@ import User from '../src/models/users.js';
 import dRoute from '../src/models/driver-route.js';
 import reqDon from '../src/models/request-donation.js';
 
-import auth from '../src/middleware/auth.js';
-
 const mockRequest = supergoose(app);
 
+// -------------------------------------------------------------------
+// Global Tokens
+// Holds our admin token and driver, request, and donation objects
+//--------------------------------------------------------------------
 let adminToken;
 let driver;
+let yamDonation;
+let yamRequest;
 
+// ---------------------------------------------
+// Server, mock admin creation
+//----------------------------------------------
 beforeAll(async () => {
   await startDB();
-  let adminInfo = {
+  const adminInfo = {
     username: 'admin',
     name: 'admin',
     password: 'admin',
@@ -29,7 +35,7 @@ beforeAll(async () => {
   let savedAdmin = await newAdmin.save();
   adminToken = savedAdmin.generateToken();
 
-  let driverInfo = {
+  const driverInfo = {
     username: 'driver',
     name: 'driver',
     password: 'driver',
@@ -37,15 +43,52 @@ beforeAll(async () => {
   }
   let newDriver = new User(driverInfo);
   driver = await newDriver.save();
-  //driverToken = savedDriver.generateToken();
-});
 
+  const donationOneInfo = {
+    driver: driver._id,
+    address: '123 Happy Lane',
+    food: 'yams',
+    reqOrDon: 'donation',
+  }
+  const donationTwoInfo = {
+    driver: driver._id,
+    address: '1600 Pennsylvania Ave',
+    food: 'wig',
+    reqOrDon: 'donation',
+  }
+
+  let newDonation1 = new reqDon(donationOneInfo);
+  yamDonation = await newDonation1.save();
+  let newDonation2 = new reqDon(donationTwoInfo);
+  await newDonation2.save();
+
+  const requestOneInfo = {
+    driver: driver._id,
+    address: '45 Depression Lane',
+    food: 'toothpaste',
+    reqOrDon: 'request',
+  }
+  const requestTwoInfo = {
+    driver: driver._id,
+    address: '45 Depession Lane',
+    food: 'yams',
+    reqOrDon: 'request',
+  }
+
+  let newRequest1 = new reqDon(requestOneInfo);
+  await newRequest1.save()
+  let newRequest2 = new reqDon(requestTwoInfo);
+  yamRequest = await newRequest2.save();
+});
 
 afterAll(stopDB);
 beforeEach(async () => {
   await dRoute.deleteMany({});
 });
 
+// ---------------------------------------------
+//        Admin Router Test
+//----------------------------------------------
 describe('Admin router', () => {
 
   //---------------------------------
@@ -212,12 +255,22 @@ describe('Admin router', () => {
     expect(response.body.length).toBe(2);
   });
 
-  xit('should get requests', async () => {
+  it('should get requests', async () => {
+    let response = await mockRequest
+      .get(`/admin/driver-routes/requests/${driver.username}`)
+      .auth(adminToken, {type: 'bearer'})
 
+    expect(response.body.length).toBe(2);
+    expect(response.body[1].food).toBe('yams');
   });
 
-  xit('should get donations', async () => {
+  it('should get donations', async () => {
+    let response = await mockRequest
+      .get(`/admin/driver-routes/donation/${driver.username}`)
+      .auth(adminToken, {type: 'bearer'})
 
+    expect(response.body.length).toBe(2);
+    expect(response.body[1].food).toBe('wig');
   });
 
   //---------------------------------
@@ -362,11 +415,21 @@ describe('Admin router', () => {
     expect(users.body.length).toBe(2);
   });
 
-  xit('should delete requests', async () => {
+  it('should delete requests', async () => {
+    // let's delete the first request for yams
+    let response = await mockRequest
+      .delete(`/admin/driver-routes/request/${driver.username}/${yamRequest._id}`)
+      .auth(adminToken, {type: 'bearer'});
 
+    expect(response.status).toBe(204);
   });
 
   it('should delete donations', async () => {
+    //let's delete the yam donation
+    let response = await mockRequest
+      .delete(`/admin/driver-routes/donation/${driver.username}/${yamRequest._id}`)
+      .auth(adminToken, {type: 'bearer'});
 
+    expect(response.status).toBe(204);
   });
 });
