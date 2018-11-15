@@ -7,16 +7,10 @@ import { app } from '../src/app';
 import supergoose, { startDB, stopDB } from './supergoose.js';
 
 import User from '../src/models/users.js';
-import food from '../src/models/food.js';
-import stop from '../src/models/stops.js';
-import pantry from '../src/models/pantry.js';
 import dRoute from '../src/models/driver-route.js';
 import reqDon from '../src/models/request-donation.js';
 
 import auth from '../src/middleware/auth.js';
-import notFound from '../src/middleware/404.js';
-import error from '../src/middleware/error.js';
-import sendJSON from '../src/middleware/sendJSON.js';
 
 const mockRequest = supergoose(app);
 
@@ -353,7 +347,8 @@ describe('Admin router', () => {
       .get('/admin/users')
       .auth(adminToken, {type: 'bearer'});
     
-    expect(users.body.length).toBe(1);
+    // This is three due to the driver and admin we created earlier in the test
+    expect(users.body.length).toBe(3);
 
     let response = await mockRequest
       .delete(`/admin/users/${newUser._id}`)
@@ -364,10 +359,10 @@ describe('Admin router', () => {
       .auth(adminToken, {type: 'bearer'});
 
     expect(response.status).toBe(204);
-    expect(users.body.length).toBe(0);
+    expect(users.body.length).toBe(2);
   });
 
-  it('should delete requests', async () => {
+  xit('should delete requests', async () => {
 
   });
 

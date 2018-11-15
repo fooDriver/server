@@ -11,7 +11,6 @@ const donRouter = express.Router();
 // Models
 import users from '../models/users';
 import reqDon from '../models/request-donation';
-import dRoute from '../models/driver-route.js';
 
 // Middleware
 import auth from '../middleware/auth';
