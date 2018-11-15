@@ -19,11 +19,17 @@ import User from '../src/models/users';
 process.env.SECRET = 'jest hack';
 const mockRequest = supergoose(app);
 
-// Test Users
+// -------------------------------------------------------------------
+// Global Tokens
+// Holds our driver token and our driver, food, and pantry objects
+//--------------------------------------------------------------------
 let donToken;
 let driver;
 let finalDonator;
 
+// ---------------------------------------------------
+// Server and mock donator creation
+//----------------------------------------------------
 beforeAll(async () => {
   await startDB();
   let donator = {
@@ -50,14 +56,15 @@ beforeAll(async () => {
   driver = await newDriver.save();
 });
 afterAll(stopDB);
-// beforeEach(async () => {
-//   await User.deleteMany({});
-// });
 
 //--------------------------------------
 //* Testing
 //--------------------------------------
 describe('Donator router', () => {
+
+  //---------------------------------
+  //    GET ROUTES
+  //---------------------------------
   it('should get all drivers', async () => {
     let response = await mockRequest
       .get(`/donator/driver-routes`)
@@ -77,6 +84,9 @@ describe('Donator router', () => {
     expect(response.body._id).toBe(driver._id.toString());
   });
 
+  //---------------------------------
+  //    POST ROUTES
+  //---------------------------------
   it('should post a donation', async () => {
 
     let response = await mockRequest

@@ -3,24 +3,23 @@
 require('dotenv').config();
 import supergoose, { startDB, stopDB } from './supergoose.js';
 import { app } from '../src/app';
-import driver from '../src/api/driver-router.js';
-import auth from '../src/api/auth-router.js';
 import User from '../src/models/users.js';
-// import food from '../src/models/food.js';
-// import pantry from '../src/models/pantry.js';
 
 const mockRequest = supergoose(app);
 
 //Need this line for Wallaby
 process.env.SECRET = 'SECRET';
 
+// ---------------------------------------------
+// Global Tokens
+// Holds our user token and driver object
+//----------------------------------------------
 let userToken;
 let testDriver;
-let testUser;
-// let apples;
-// let driverPantry;
 
-
+// ---------------------------------------------
+// Server and mock user creation
+//----------------------------------------------
 beforeAll(async () => {
   await startDB();
 
@@ -33,7 +32,7 @@ beforeAll(async () => {
   };
 
   let newUser = new User(userInfo);
-  testUser = await newUser.save();
+  let testUser = await newUser.save();
   userToken = testUser.generateToken();
 
   let driverInfo = {
@@ -49,10 +48,14 @@ beforeAll(async () => {
 
 afterAll(stopDB);
 
-
-
-
+// ---------------------------------------------
+//        User Router Test
+//----------------------------------------------
 describe('User router', () => {
+
+  //---------------------------------
+  //    GET ROUTES
+  //---------------------------------
   it('should send a list of all drivers to the user', async () => {
     let response = await mockRequest
       .get('/user/driver-routes')
@@ -67,15 +70,17 @@ describe('User router', () => {
       .auth(userToken, { type: "bearer" });
     expect(response.status).toBe(200);
     expect(response.body._id).toBe(testDriver._id.toString());
-
   });
 
-    it('should post a request to a specific driver name', async () => {
-      let response = await mockRequest
-        .post('/user/driver-routes/request/driver-username')
-        .auth(userToken, { type: "bearer" })
-        .send({food: 'bread'});
-        expect(response.body.food).toBe('bread');
+  //---------------------------------
+  //    POST ROUTES
+  //---------------------------------
+  it('should post a request to a specific driver name', async () => {
+    let response = await mockRequest
+      .post('/user/driver-routes/request/driver-username')
+      .auth(userToken, { type: "bearer" })
+      .send({food: 'bread'});
+      expect(response.body.food).toBe('bread');
       
    });
 });
