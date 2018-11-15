@@ -37,8 +37,10 @@ driverRouter.delete('/driver/driver-routes/:name/:foodid', auth('driver'), async
   let driver = await users.findOne({username: req.params.name});
   let driverPantry = await pantry.findOne({driver: driver._id});
   const index = driverPantry.pantryItems.findIndex(food => JSON.stringify(food._id) == JSON.stringify(req.params.foodid));
-  if (!index) {
-    return 'Does not exist!';
+  console.log(index);
+  if (index === -1) {
+    console.log('no index');
+    res.end( 'Does not exist!');
   }
   driverPantry.pantryItems.splice(index,1);
   await driverPantry.save();
