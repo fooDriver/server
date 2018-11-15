@@ -6,9 +6,6 @@
 
 // Dependencies
 import express from 'express';
-// import router from './api/router.js';
-// import notFound from './middleware/404.js'; // 404 page not found
-// import serverError from './middleware/error.js'; // 500 server error
 import authRouter from './api/auth-router.js';
 import driverRouter from './api/driver-router.js';
 import adminRouter from './api/adminRouter.js';
@@ -23,9 +20,6 @@ app.use(authRouter);
 app.use(adminRouter);
 app.use(driverRouter);
 app.use(donRouter);
-
-// app.use(notFound);
-// app.use(serverError);
 
 //--------------------------------------
 //* Start Server

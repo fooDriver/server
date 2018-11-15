@@ -59,7 +59,7 @@ describe('Admin router', () => {
   //---------------------------------
   it('should post food', async () => {
     let response = await mockRequest
-      .post('/food')
+      .post('/admin/food')
       .auth(adminToken, {type: 'bearer'})
       .send({food:'hummus'});
 
@@ -70,20 +70,20 @@ describe('Admin router', () => {
     const routeInfo = {
       name: 'Route A',
       driver: driver._id,
-    }
+    };
 
     let newRoute = await mockRequest
-      .post('/driver-routes')
+      .post('/admin/driver-routes')
       .auth(adminToken, {type: 'bearer'})
       .send(routeInfo);
 
     const stopInfo = {
       location: '5th and Pine',
       route: newRoute._id,
-    }
+    };
 
     let newStop = await mockRequest
-      .post('/stops')
+      .post('/admin/stops')
       .auth(adminToken, {type: 'bearer'})
       .send(stopInfo);
 
@@ -95,25 +95,25 @@ describe('Admin router', () => {
     const pantryInfo = {
       driver: driver._id,
       pantryItems: [],
-    }
+    };
 
     let newPantry = await mockRequest
-      .post('/pantries')
+      .post('/admin/pantries')
       .auth(adminToken, {type: 'bearer'})
       .send(pantryInfo);
     
-      expect(newPantry.body.driver).toBe(pantryInfo.driver._id.toString());
-      expect(newPantry.body.pantryItems.length).toBe(0);
+    expect(newPantry.body.driver).toBe(pantryInfo.driver._id.toString());
+    expect(newPantry.body.pantryItems.length).toBe(0);
   });
 
   it('should post a driver-route and assign a driver', async () => {
     const routeInfo = {
       name: 'Route A',
       driver: driver._id,
-    }
+    };
 
     let response = await mockRequest
-      .post('/driver-routes')
+      .post('/admin/driver-routes')
       .auth(adminToken, {type: 'bearer'})
       .send(routeInfo);
 
@@ -126,17 +126,17 @@ describe('Admin router', () => {
   //---------------------------------
   it('should get all food', async () => {
     await mockRequest
-      .post('/food')
+      .post('/admin/food')
       .auth(adminToken, {type: 'bearer'})
       .send({food:'hummus'});
 
     await mockRequest
-      .post('/food')
+      .post('/admin/food')
       .auth(adminToken, {type: 'bearer'})
       .send({food:'carrots'});
 
     let response = await mockRequest
-      .get('/food')
+      .get('/admin/food')
       .auth(adminToken, {type: 'bearer'});
 
     expect(response.body.length).toBe(2);
@@ -146,68 +146,69 @@ describe('Admin router', () => {
     const routeInfo = {
       name: 'Route A',
       driver: driver._id,
-    }
+    };
 
     let newRoute = await mockRequest
-      .post('/driver-routes')
+      .post('/admin/driver-routes')
       .auth(adminToken, {type: 'bearer'})
       .send(routeInfo);
 
     const stopOneInfo = {
       location: '5th and Pine',
       route: newRoute._id,
-    }
+    };
+
     const stopTwoInfo = {
       location: '4th and Broad',
       route: newRoute._id,
-    }
+    };
 
     await mockRequest
-      .post('/stops')
+      .post('/admin/stops')
       .auth(adminToken, {type: 'bearer'})
       .send(stopOneInfo);
 
     await mockRequest
-      .post('/stops')
+      .post('/admin/stops')
       .auth(adminToken, {type: 'bearer'})
       .send(stopTwoInfo);
 
     let response = await mockRequest
-      .get('/stops')
+      .get('/admin/stops')
       .auth(adminToken, {type: 'bearer'});
 
     expect(response.body.length).toBe(2);
   });
 
-  it('should get all driver-routes', async () => {
-
-  });
-
-  it('should get all pantries', async () => {
-
-  });
-
   it('should get drivers', async () => {
     let response = await mockRequest
-      .get('/drivers')
+      .get('/admin/drivers')
       .auth(adminToken, {type: 'bearer'});
 
     expect(response.body.length).toBe(1);
   });
 
-  it('should get donators', async () => {
+  xit('should get all driver-routes', async () => {
 
   });
 
-  it('should get all users', async () => {
+  xit('should get all pantries', async () => {
 
   });
 
-  it('should get requests', async () => {
+  xit('should get donators', async () => {
 
   });
 
-  it('should get donations', async () => {
+  xit('should get all users', async () => {
+
+  });
+
+  xit('should get requests', async () => {
+
+  });
+
+  xit('should get donations', async () => {
 
   });
 
@@ -216,17 +217,17 @@ describe('Admin router', () => {
   //---------------------------------
   it('should delete food', async () => {
     let hummus = await mockRequest
-      .post('/food')
+      .post('/admin/food')
       .auth(adminToken, {type: 'bearer'})
       .send({food:'hotdogs'});
 
     await mockRequest
-      .post('/food')
+      .post('/admin/food')
       .auth(adminToken, {type: 'bearer'})
       .send({food:'chicken'});
       
     let deleted = await mockRequest
-      .delete(`/food/${hummus.body._id}`)
+      .delete(`/admin/food/${hummus.body._id}`)
       .auth(adminToken, {type: 'bearer'});
 
     expect(deleted.status).toBe(204);
@@ -236,40 +237,40 @@ describe('Admin router', () => {
     const routeInfo = {
       name: 'Route B',
       driver: driver._id,
-    }
+    };
 
     let newRoute = await mockRequest
-      .post('/driver-routes')
+      .post('/admin/driver-routes')
       .auth(adminToken, {type: 'bearer'})
       .send(routeInfo);
 
     const stopOneInfo = {
       location: '3rd and Pine',
       route: newRoute._id,
-    }
+    };
     const stopTwoInfo = {
       location: '2nd and Broad',
       route: newRoute._id,
-    }
+    };
 
     await mockRequest
-      .post('/stops')
+      .post('/admin/stops')
       .auth(adminToken, {type: 'bearer'})
       .send(stopOneInfo);
 
     let stopTwo = await mockRequest
-      .post('/stops')
+      .post('/admin/stops')
       .auth(adminToken, {type: 'bearer'})
       .send(stopTwoInfo);
 
     let response = await mockRequest
-      .delete(`/stops/${stopTwo.body._id}`)
+      .delete(`/admin/stops/${stopTwo.body._id}`)
       .auth(adminToken, {type: 'bearer'});
 
     expect(response.status).toBe(204);
 
     let newStops = await mockRequest
-      .get('/stops')
+      .get('/admin/stops')
       .auth(adminToken, {type: 'bearer'});
 
     //NOTE: this is three instead of one from the tests earlier
