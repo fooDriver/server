@@ -45,27 +45,21 @@ donRouter.get('/donator/driver-routes/:name', auth('user'), async (req, res, nex
 
 // sends address and food of the user
 donRouter.post('/donator/driver-routes/donation/:name', auth('user'), async (req, res, next) => {
-
   try {
     const driver = await users.findOne({
       username: req.params.name,
     });
 
-    console.log(driver.body._id)
-
     let donate = {
-      driver: req.params.name,
+      driver: driver._id,
       address: req.user.address,
       food: req.body.food,
       reqOrDon: 'donation',
     };
 
-    console.log('donate is ', donate);
-
     let newDonation = new reqDon(donate);
-    let response = newDonation.save();
-    console.log(response.body);
-    sendJSON(res, newDonation);
+    let response = await newDonation.save();
+    sendJSON(res, response);
   }
   catch (err) {
     next();

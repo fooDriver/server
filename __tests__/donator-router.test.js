@@ -85,7 +85,7 @@ describe('Donator router', () => {
       .auth(donToken,{type:'bearer'})
       .send({food: 'tortillas'});
 
-    console.log(response.body);
+    expect(response.body.driver).toBe(driver._id.toString());
   })
 
 });
