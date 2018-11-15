@@ -10,6 +10,7 @@ import authRouter from './api/auth-router.js';
 import driverRouter from './api/driver-router.js';
 import adminRouter from './api/adminRouter.js';
 import donRouter from './api/donator-router.js';
+import userRouter from './api/user-router.js';
 
 // Start Express
 const app = express();
@@ -20,6 +21,7 @@ app.use(authRouter);
 app.use(adminRouter);
 app.use(driverRouter);
 app.use(donRouter);
+app.use(userRouter);
 
 //--------------------------------------
 //* Start Server
