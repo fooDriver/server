@@ -38,7 +38,7 @@ adminRouter.get('/admin/stops', auth('admin'), async (req, res, next) => {
   }
 });
 
-adminRouter.get('/admin/driver-routes/admin', auth('admin'), async (req, res, next) => {
+adminRouter.get('/admin/driver-routes', auth('admin'), async (req, res, next) => {
   try {
     const driverRoutes = await dRoute.find({});
     sendJSON(res, driverRoutes);
@@ -60,28 +60,15 @@ adminRouter.get('/admin/pantries', auth('admin'), async (req, res, next) => {
 
 adminRouter.get('/admin/users', auth('admin'), async (req, res, next) => {
   try {
-    const users = await user.find({ role: 'user' });
-    sendJSON(res, users);
-  }
-  catch (err) {
-    next();
-  }
-});
-
-adminRouter.get('/admin/donators', auth('admin'), async (req, res, next) => {
-  try {
-    const users = await user.find({ role: 'donator' });
-    sendJSON(res, users);
-  }
-  catch (err) {
-    next();
-  }
-});
-
-adminRouter.get('/admin/drivers', auth('admin'), async (req, res, next) => {
-  try {
-    const users = await user.find({ role: 'driver' });
-    sendJSON(res, users);
+    let sendUsers = await user.aggregate([{
+      $group: {
+        _id: '$role',
+        people: {
+          $push: '$$ROOT'
+        },
+      }
+    }]);
+    sendJSON(res, sendUsers);
   }
   catch (err) {
     next();
@@ -197,30 +184,6 @@ adminRouter.delete('/admin/pantries/:id', auth('admin'), async (req, res, next) 
 });
 
 adminRouter.delete('/admin/users/:id', auth('admin'), async (req, res, next) => {
-  try {
-    await user.findByIdAndRemove(req.params.id);
-    res.statusCode = 204;
-    res.statusMessage = 'No Content';
-    res.end();
-  }
-  catch (err) {
-    next();
-  }
-});
-
-adminRouter.delete('/admin/donators/:id', auth('admin'), async (req, res, next) => {
-  try {
-    await user.findByIdAndRemove(req.params.id);
-    res.statusCode = 204;
-    res.statusMessage = 'No Content';
-    res.end();
-  }
-  catch (err) {
-    next();
-  }
-});
-
-adminRouter.delete('/admin/drivers/:id', auth('admin'), async (req, res, next) => {
   try {
     await user.findByIdAndRemove(req.params.id);
     res.statusCode = 204;
