@@ -48,7 +48,7 @@ beforeAll(async () => {
   let newPantry = new pantry(pantryInfo);
   driverPantry = await newPantry.save();
 
-  
+
 });
 afterAll(stopDB);
 // beforeEach(async() => {
@@ -60,17 +60,17 @@ afterAll(stopDB);
 // }
 
 describe('Driver router', () => {
-  it('should get the driver rout with the driver name', async () => {
-  let response = await mockRequest.get('/driver/driver-routes/driver').auth(token,{type:"bearer"});
-  expect(response.status).toBe(200);
-  let driver = JSON.parse(response.text);
-  expect(driver.username).toBe("driver");
-  expect(driver.name).toBe("driver");
+  it('should get the driver rout with the driver name sending the driver name ', async () => {
+    let response = await mockRequest.get('/driver/driver-routes/driver').auth(token, { type: "bearer" });
+    expect(response.status).toBe(200);
+    let driver = JSON.parse(response.text);
+    expect(driver.username).toBe("driver");
+    expect(driver.name).toBe("driver");
   });
 
   it('should post driver pantry with the driver name', async () => {
     expect(driverPantry.pantryItems.length).toEqual(0);
-    let response = await mockRequest.post('/driver/driver-routes/driver').auth(token,{type:"bearer"}).send(apples);
+    let response = await mockRequest.post('/driver/driver-routes/driver').auth(token, { type: "bearer" }).send(apples);
     expect(response.body.pantryItems.length).toEqual(1);
     expect(response.status).toBe(200);
   });
@@ -79,17 +79,14 @@ describe('Driver router', () => {
     expect(driverPantry.pantryItems.length).toEqual(0);
 
     let response = await mockRequest.post('/driver/driver-routes/driver')
-    .auth(token,{type:"bearer"}).send(apples); 
+      .auth(token, { type: "bearer" }).send(apples);
     expect(response.body.pantryItems.length).toEqual(1);
-    let deleted = await mockRequest.delete('/driver/driver-routes/driver/apples._id').auth(token,{type:"bearer"});
+    let deleted = await mockRequest.delete('/driver/driver-routes/driver/apples._id').auth(token, { type: "bearer" });
     expect(driverPantry.pantryItems.length).toEqual(0);
   });
-  
+
   it('should return error when deleting non existing item from pantry', async () => {
-    let deleted = await mockRequest.delete('/driver/driver-routes/driver/1234').auth(token,{type:"bearer"});
+    let deleted = await mockRequest.delete('/driver/driver-routes/driver/1234').auth(token, { type: "bearer" });
     expect(deleted.text).toBe('Does not exist!');
-  
-
-
-});
+  });
 });
