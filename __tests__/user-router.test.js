@@ -14,38 +14,37 @@ const mockRequest = supergoose(app);
 //Need this line for Wallaby
 process.env.SECRET = 'SECRET';
 
-let token;
+let userToken;
 let testDrivers;
+let testUser;
 // let apples;
 // let driverPantry;
-let testUser;
 
 
 beforeAll(async () => {
   await startDB();
 
   let userInfo = {
-    username: 'user',
-    name: 'user',
-    password: 'user',
+    username: 'user-username',
+    name: 'user-name',
+    password: 'userPassword',
     role: 'user',
     address: '2901 3rd, Seattle'
   }
 
   let newUser = new User(userInfo);
   testUser = await newUser.save();
-  // token = testUser.generateToken();
+  userToken = testUser.generateToken();
 
   let driverInfo = {
-    username: 'driver',
-    name: 'driver',
-    password: 'driver',
+    username: 'driver-username',
+    name: 'driver-name',
+    password: 'driverPassword',
     role: 'driver',
   }
 
   let newDriver = new User(driverInfo);
   testDrivers = await newDriver.save();
-  // token = testDriver.generateToken();
 
 //   let foodInfo = {
 //     food: 'apples',
@@ -64,7 +63,7 @@ beforeAll(async () => {
 
 // });
 
-// afterAll(stopDB);
+afterAll(stopDB);
 // // beforeEach(async() => {
 // //   await User.deleteMany({});
 // // });
