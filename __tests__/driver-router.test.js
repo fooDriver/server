@@ -83,9 +83,13 @@ describe('Driver router', () => {
     expect(response.body.pantryItems.length).toEqual(1);
     let deleted = await mockRequest.delete('/driver/driver-routes/driver/apples._id').auth(token,{type:"bearer"});
     expect(driverPantry.pantryItems.length).toEqual(0);
-});
+  });
+  
+  it('should return error when deleting non existing item from pantry', async () => {
+    let deleted = await mockRequest.delete('/driver/driver-routes/driver/1234').auth(token,{type:"bearer"});
+    expect(deleted.text).toBe('Does not exist!');
+  
 
-xit('should return error when deleting non existing item from pantry', async () => {
 
 });
 });
