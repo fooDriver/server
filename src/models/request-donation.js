@@ -5,10 +5,16 @@
 import mongoose, { Schema } from 'mongoose';
 
 const requestDonationSchema = new Schema({
-  driver: String,
+  driver: {
+    type: Schema.Types.ObjectId,
+    ref: 'users',
+    autopopulate: true,
+  },
   address: String,
   food: String,
-  reqOrDon: { type: String, required: true, default: 'other', enum: ['request', 'donation', 'other'] },
+  reqOrDon: String, 
 });
+
+requestDonationSchema.plugin(require('mongoose-autopopulate'));
 
 export default mongoose.model('requestDonation', requestDonationSchema);
