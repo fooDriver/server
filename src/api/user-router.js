@@ -9,14 +9,16 @@ import express from 'express';
 const userRouter = express.Router();
 
 // Dependencies
-import users from '../models/users';
+import users from '../models/users.js';
 import reqDon from '../models/request-donation.js';
 import sendJSON from '../middleware/sendJSON';
+import auth from '../middleware/auth.js';
 
 //--------------------------------------
 //* Routes
 //--------------------------------------
 userRouter.get('/user/driver-routes', auth('user'), async (req, res, next) => {
+  console.log('userRouter');
   try {
     let drivers = await user.find({
       role: 'driver'
@@ -26,7 +28,7 @@ userRouter.get('/user/driver-routes', auth('user'), async (req, res, next) => {
     next();
   }
 });
-
+console.log('process.env.port'); 
 userRouter.get('/user/driver-routes/:name', auth('user'), async (req, res, next) => {
   try {
     let driver = await users.findOne({
