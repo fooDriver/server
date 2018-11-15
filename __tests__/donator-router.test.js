@@ -36,7 +36,6 @@ beforeAll(async () => {
   let newDonator = new User(donator);
   finalDonator = await newDonator.save();
   donToken = finalDonator.generateToken();
-  console.log(donToken);
 
   let driverInfo = {
     username: 'snoopyD',
@@ -50,22 +49,24 @@ beforeAll(async () => {
   driver = await newDriver.save();
 });
 afterAll(stopDB);
-beforeEach(async () => {
-  await User.deleteMany({});
-});
+// beforeEach(async () => {
+//   await User.deleteMany({});
+// });
 
 //--------------------------------------
 //* Testing
 //--------------------------------------
 describe('Donator router', () => {
   it('should get all drivers', async () => {
-    let response = await mockRequest.get(`/donator/driver-routes`).auth(donToken,{type:'bearer'});
+    let response = await mockRequest
+      .get(`/donator/driver-routes`)
+      .auth(donToken, {type:'bearer'});
     
     console.log(finalDonator);
-    console.log(response);
+    console.log(response.body);
     
     expect(response.status).toBe(200);
-    expect(response.text).toBe();
+    //expect(response.text).toBe();
   });
 
   xit('should get a specific driver by name', async () => {
@@ -74,5 +75,7 @@ describe('Donator router', () => {
     expect(response.status).toBe(200);
     expect(response.text).toBe('');
   });
+
+
 
 });

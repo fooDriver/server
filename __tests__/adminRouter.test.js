@@ -48,9 +48,9 @@ beforeAll(async () => {
 
 
 afterAll(stopDB);
-// beforeEach(async () => {
-//   await User.deleteMany({});
-// });
+beforeEach(async () => {
+  await dRoute.deleteMany({});
+});
 
 describe('Admin router', () => {
 
@@ -180,12 +180,32 @@ describe('Admin router', () => {
     expect(response.body.length).toBe(2);
   });
 
-  xit('should get all driver-routes', async () => {
+  it('should get all driver-routes', async () => {
+    const routeInfo = {
+      name: 'Route A',
+      driver: driver._id,
+    };
 
+    await mockRequest
+      .post('/admin/driver-routes')
+      .auth(adminToken, {type: 'bearer'})
+      .send(routeInfo);
+
+    let response = await mockRequest
+      .get('/admin/driver-routes')
+      .auth(adminToken, {type: 'bearer'});
+
+    expect(response.body.length).toBe(1);
   });
 
-  xit('should get all pantries', async () => {
+  it('should get all pantries', async () => {
+    let response = await mockRequest
+      .get('/admin/pantries')
+      .auth(adminToken, {type: 'bearer'});
+    
+    // we created our pantry earlier in the post test so we should expect there to be 1 pantry in our test
 
+    expect(response.body.length).toBe(1);
   });
 
   it('should get all users', async () => {
@@ -194,6 +214,7 @@ describe('Admin router', () => {
       .auth(adminToken, {type: 'bearer'});
 
     // since we created our driver and admin above, the body should only have two users
+
     expect(response.body.length).toBe(2);
   });
 
@@ -271,10 +292,51 @@ describe('Admin router', () => {
   });
 
   it('should delete a driver-route', async () => {
-    
+    const routeInfo = {
+      name: 'Route A',
+      driver: driver._id,
+    };
+
+    let response = await mockRequest
+      .post('/admin/driver-routes')
+      .auth(adminToken, {type: 'bearer'})
+      .send(routeInfo);
+
+    let deleted = await mockRequest
+      .delete(`/admin/driver-routes/${response.body._id}`)
+      .auth(adminToken, {type: 'bearer'});
+
+    expect(deleted.status).toBe(204);
+
+    let routes = await mockRequest
+      .get('/admin/driver-routes')
+      .auth(adminToken, {type: 'bearer'});
+
+    expect(routes.body.length).toBe(0);
   });
 
   it('should delete a pantry', async () => {
+    let response = await mockRequest
+      .get('/admin/pantries')
+      .auth(adminToken, {type: 'bearer'});
+  
+    // we created our pantry earlier in the post test so we should expect there to be 1 pantry in our test
+
+    expect(response.body.length).toBe(1);
+
+    // now let's delete it!
+
+    let deleted = await mockRequest
+      .delete(`/admin/pantries/${response.body[0]._id}`)
+      .auth(adminToken, {type: 'bearer'});
+
+    expect(deleted.status).toBe(204);
+
+    let newRes = await mockRequest
+      .get('/admin/pantries')
+      .auth(adminToken, {type: 'bearer'});
+
+    expect(newRes.body.length).toBe(0);
 
   });
 
