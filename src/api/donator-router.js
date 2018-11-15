@@ -17,7 +17,7 @@ import auth from '../middleware/auth';
 import sendJSON from '../middleware/sendJSON';
 
 // routes all the users with the role of driver and populate routes with stops
-donRouter.get('/driver-routes', auth('user'), (req, res, next) => {
+donRouter.get('/donator/driver-routes', auth('user'), (req, res, next) => {
   console.log('I am in donator driver');
   users.find({
     role: 'driver',
@@ -27,7 +27,7 @@ donRouter.get('/driver-routes', auth('user'), (req, res, next) => {
 });
 
 // single user with role of driver populate pantry with food populate routes with stops
-donRouter.get('/driver-routes/:name', auth('user'), (req, res, next) => {
+donRouter.get('/donator/driver-routes/:name', auth('user'), (req, res, next) => {
   users.findOne({
     username: req.params.name,
     role: 'driver',
@@ -39,7 +39,7 @@ donRouter.get('/driver-routes/:name', auth('user'), (req, res, next) => {
 });
 
 // sends address and food of the user
-donRouter.post('/driver-routes/donation/:name', auth('user'), (req, res, next) => {
+donRouter.post('/donator/driver-routes/donation/:name', auth('user'), (req, res, next) => {
   let donate = {
     driver: req.params.name,
     address: req.users.address,

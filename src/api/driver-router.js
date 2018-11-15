@@ -17,15 +17,15 @@ import users from '../models/users';
 import auth from '../middleware/auth.js';
 import sendJSON from '../middleware/sendJSON';
 
-// routes
-
-driverRouter.get('/driver-routes/:name', auth('driver'), async (req, res, next) => {
+//--------------------------------------
+//* Routes
+//--------------------------------------
+driverRouter.get('/driver/driver-routes/:name', auth('driver'), async (req, res, next) => {
   let driver = await users.findOne({username: req.params.name});
   res.send(driver);
 });
 
-
-driverRouter.post('/driver-routes/:name', auth('driver'), async (req, res, next) => {
+driverRouter.post('/driver/driver-routes/:name', auth('driver'), async (req, res, next) => {
   let driver = await users.findOne({username: req.params.name});
   let driverPantry = await pantry.findOne({driver: driver._id});
   driverPantry.pantryItems.push(req.body._id);
@@ -33,13 +33,7 @@ driverRouter.post('/driver-routes/:name', auth('driver'), async (req, res, next)
   res.send(driverPantry);
 });
 
-// driverRouter.put('/driver-routes/:name', (req, res, next) => {
-
-// });
-
-
-driverRouter.delete('/driver-routes/:name/:foodid', auth('driver'), async(req, res, next) => {
-
+driverRouter.delete('/driver/driver-routes/:name/:foodid', auth('driver'), async(req, res, next) => {
   let driver = await users.findOne({username: req.params.name});
   let driverPantry = await pantry.findOne({driver: driver._id});
   const index = driverPantry.pantryItems.findIndex(food => JSON.stringify(food._id) == JSON.stringify(req.params.foodid));
@@ -53,4 +47,7 @@ driverRouter.delete('/driver-routes/:name/:foodid', auth('driver'), async(req, r
   res.send('That food was deleted');
 });
 
+//--------------------------------------
+//* Export
+//--------------------------------------
 export default driverRouter;

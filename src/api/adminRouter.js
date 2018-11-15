@@ -1,6 +1,14 @@
+//--------------------------------------
+//* Setup
+//--------------------------------------
+// Safety Googles ON
+'use strict';
+
+// Router Setup
 import express from 'express';
 const adminRouter = express.Router();
 
+// Dependencies
 import dRoute from '../models/driver-route.js';
 import food from '../models/food.js';
 import pantry from '../models/pantry.js';
@@ -10,7 +18,7 @@ import user from '../models/users.js';
 import sendJSON from '../middleware/sendJSON';
 import auth from '../middleware/auth';
 
-adminRouter.get('/food', auth('admin'), async (req, res, next) => {
+adminRouter.get('/admin/food', auth('admin'), async (req, res, next) => {
   try {
     const foods = await food.find({});
     sendJSON(res, foods);
@@ -20,7 +28,7 @@ adminRouter.get('/food', auth('admin'), async (req, res, next) => {
   }
 });
 
-adminRouter.get('/stops', auth('admin'), async (req, res, next) => {
+adminRouter.get('/admin/stops', auth('admin'), async (req, res, next) => {
   try {
     const routeStops = await stop.find({});
     sendJSON(res, routeStops); 
@@ -30,7 +38,7 @@ adminRouter.get('/stops', auth('admin'), async (req, res, next) => {
   }
 });
 
-adminRouter.get('/driver-routes/admin', auth('admin'), async (req, res, next) => {
+adminRouter.get('/admin/driver-routes/admin', auth('admin'), async (req, res, next) => {
   try {
     const driverRoutes = await dRoute.find({});
     sendJSON(res, driverRoutes);
@@ -40,7 +48,7 @@ adminRouter.get('/driver-routes/admin', auth('admin'), async (req, res, next) =>
   }
 });
 
-adminRouter.get('/pantries', auth('admin'), async (req, res, next) => {
+adminRouter.get('/admin/pantries', auth('admin'), async (req, res, next) => {
   try {
     const pantries = await pantry.find({});
     sendJSON(res, pantries);
@@ -50,7 +58,7 @@ adminRouter.get('/pantries', auth('admin'), async (req, res, next) => {
   }
 });
 
-adminRouter.get('/users', auth('admin'), async (req, res, next) => {
+adminRouter.get('/admin/users', auth('admin'), async (req, res, next) => {
   try {
     const users = await user.find({ role: 'user' });
     sendJSON(res, users);
@@ -60,7 +68,7 @@ adminRouter.get('/users', auth('admin'), async (req, res, next) => {
   }
 });
 
-adminRouter.get('/donators', auth('admin'), async (req, res, next) => {
+adminRouter.get('/admin/donators', auth('admin'), async (req, res, next) => {
   try {
     const users = await user.find({ role: 'donator' });
     sendJSON(res, users);
@@ -70,7 +78,7 @@ adminRouter.get('/donators', auth('admin'), async (req, res, next) => {
   }
 });
 
-adminRouter.get('/drivers', auth('admin'), async (req, res, next) => {
+adminRouter.get('/admin/drivers', auth('admin'), async (req, res, next) => {
   try {
     const users = await user.find({ role: 'driver' });
     sendJSON(res, users);
@@ -80,7 +88,7 @@ adminRouter.get('/drivers', auth('admin'), async (req, res, next) => {
   }
 });
 
-adminRouter.get('/driver-routes/donation/:username', auth('admin'), async (req, res, next) => {
+adminRouter.get('/admin/driver-routes/donation/:username', auth('admin'), async (req, res, next) => {
   try {
     const donation = await rd.find({ username: req.params.username, reqOrDon: 'donation' });
     sendJSON(res, donation);
@@ -90,7 +98,7 @@ adminRouter.get('/driver-routes/donation/:username', auth('admin'), async (req, 
   }
 });
 
-adminRouter.get('/driver-routes/requests/:username', auth('admin'), async (req, res, next) => {
+adminRouter.get('/admin/driver-routes/requests/:username', auth('admin'), async (req, res, next) => {
   try {
     const request = await rd.find({ username: req.params.username, reqOrDon: 'request' });
     sendJSON(res, request);
@@ -100,7 +108,7 @@ adminRouter.get('/driver-routes/requests/:username', auth('admin'), async (req, 
   }
 });
 
-adminRouter.post('/food', auth('admin'), async (req, res, next) => {
+adminRouter.post('/admin/food', auth('admin'), async (req, res, next) => {
   try {
     let newFood = await food.create(req.body);
     sendJSON(res, newFood);
@@ -110,7 +118,7 @@ adminRouter.post('/food', auth('admin'), async (req, res, next) => {
   }
 });
 
-adminRouter.post('/stops', auth('admin'), async (req, res, next) => {
+adminRouter.post('/admin/stops', auth('admin'), async (req, res, next) => {
   try {
     let newStop = await stop.create(req.body);
     sendJSON(res, newStop);
@@ -120,7 +128,7 @@ adminRouter.post('/stops', auth('admin'), async (req, res, next) => {
   }
 });
 
-adminRouter.post('/driver-routes', auth('admin'), async (req, res, next) => {
+adminRouter.post('/admin/driver-routes', auth('admin'), async (req, res, next) => {
   try {
     const newDriverRoute = await dRoute.create(req.body);
     sendJSON(res, newDriverRoute);
@@ -130,7 +138,7 @@ adminRouter.post('/driver-routes', auth('admin'), async (req, res, next) => {
   }
 });
 
-adminRouter.post('/pantries', auth('admin'), async (req, res, next) => {
+adminRouter.post('/admin/pantries', auth('admin'), async (req, res, next) => {
   try {
     const newPantry = await pantry.create(req.body);
     sendJSON(res, newPantry);
@@ -140,7 +148,7 @@ adminRouter.post('/pantries', auth('admin'), async (req, res, next) => {
   }
 });
 
-adminRouter.delete('/food/:id', auth('admin'), async (req, res, next) => {
+adminRouter.delete('/admin/food/:id', auth('admin'), async (req, res, next) => {
   try {
     await food.findByIdAndRemove(req.params.id);
     res.statusCode = 204;
@@ -152,7 +160,7 @@ adminRouter.delete('/food/:id', auth('admin'), async (req, res, next) => {
   }
 });
 
-adminRouter.delete('/stops/:id', auth('admin'), async (req, res, next) => {
+adminRouter.delete('/admin/stops/:id', auth('admin'), async (req, res, next) => {
   try {
     await stop.findByIdAndRemove(req.params.id);
     res.statusCode = 204;
@@ -164,7 +172,7 @@ adminRouter.delete('/stops/:id', auth('admin'), async (req, res, next) => {
   }
 });
 
-adminRouter.delete('/driver-routes/:id', auth('admin'), async (req, res, next) => {
+adminRouter.delete('/admin/driver-routes/:id', auth('admin'), async (req, res, next) => {
   try {
     await dRoute.findByIdAndRemove(req.params.id);
     res.statusCode = 204;
@@ -176,7 +184,7 @@ adminRouter.delete('/driver-routes/:id', auth('admin'), async (req, res, next) =
   }
 });
 
-adminRouter.delete('/pantries/:id', auth('admin'), async (req, res, next) => {
+adminRouter.delete('/admin/pantries/:id', auth('admin'), async (req, res, next) => {
   try {
     await pantry.findByIdAndRemove(req.params.id);
     res.statusCode = 204;
@@ -188,7 +196,7 @@ adminRouter.delete('/pantries/:id', auth('admin'), async (req, res, next) => {
   }
 });
 
-adminRouter.delete('/users/:id', auth('admin'), async (req, res, next) => {
+adminRouter.delete('/admin/users/:id', auth('admin'), async (req, res, next) => {
   try {
     await user.findByIdAndRemove(req.params.id);
     res.statusCode = 204;
@@ -200,7 +208,7 @@ adminRouter.delete('/users/:id', auth('admin'), async (req, res, next) => {
   }
 });
 
-adminRouter.delete('/donators/:id', auth('admin'), async (req, res, next) => {
+adminRouter.delete('/admin/donators/:id', auth('admin'), async (req, res, next) => {
   try {
     await user.findByIdAndRemove(req.params.id);
     res.statusCode = 204;
@@ -212,7 +220,7 @@ adminRouter.delete('/donators/:id', auth('admin'), async (req, res, next) => {
   }
 });
 
-adminRouter.delete('/drivers/:id', auth('admin'), async (req, res, next) => {
+adminRouter.delete('/admin/drivers/:id', auth('admin'), async (req, res, next) => {
   try {
     await user.findByIdAndRemove(req.params.id);
     res.statusCode = 204;
@@ -224,7 +232,7 @@ adminRouter.delete('/drivers/:id', auth('admin'), async (req, res, next) => {
   }
 });
 
-adminRouter.delete('/driver-routes/donation/:username/:id', auth('admin'), async (req, res, next) => {
+adminRouter.delete('/admin/driver-routes/donation/:username/:id', auth('admin'), async (req, res, next) => {
   try {
     await rd.findByIdAndRemove(req.params.id);
     res.statusCode = 204;
@@ -236,7 +244,7 @@ adminRouter.delete('/driver-routes/donation/:username/:id', auth('admin'), async
   }
 });
 
-adminRouter.delete('/driver-routes/request/:username/:id', auth('admin'), async (req, res, next) => {
+adminRouter.delete('/admin/driver-routes/request/:username/:id', auth('admin'), async (req, res, next) => {
   try {
     await rd.findByIdAndRemove(req.params.id);
     res.statusCode = 204;

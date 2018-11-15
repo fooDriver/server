@@ -14,8 +14,6 @@ import {
   app
 } from '../src/app';
 import User from '../src/models/users';
-import donator from '../src/api/donator-router';
-import auth from '../src/middleware/auth';
 
 // Test Prep
 process.env.SECRET = 'jest hack';
@@ -61,7 +59,7 @@ beforeEach(async () => {
 //--------------------------------------
 describe('Donator router', () => {
   it('should get all drivers', async () => {
-    let response = await mockRequest.get(`/driver-routes`).auth(donToken,{type:'bearer'});
+    let response = await mockRequest.get(`/donator/driver-routes`).auth(donToken,{type:'bearer'});
     
     console.log(finalDonator);
     console.log(response);
@@ -71,7 +69,7 @@ describe('Donator router', () => {
   });
 
   xit('should get a specific driver by name', async () => {
-    let response = await mockRequest.get(`/driver-routes/${driver.name}`).auth(donToken,{type:'bearer'});
+    let response = await mockRequest.get(`/donator/driver-routes/${driver.name}`).auth(donToken,{type:'bearer'});
     console.log(response);
     expect(response.status).toBe(200);
     expect(response.text).toBe('');
