@@ -180,14 +180,6 @@ describe('Admin router', () => {
     expect(response.body.length).toBe(2);
   });
 
-  it('should get drivers', async () => {
-    let response = await mockRequest
-      .get('/admin/drivers')
-      .auth(adminToken, {type: 'bearer'});
-
-    expect(response.body.length).toBe(1);
-  });
-
   xit('should get all driver-routes', async () => {
 
   });
@@ -196,12 +188,13 @@ describe('Admin router', () => {
 
   });
 
-  xit('should get donators', async () => {
+  it('should get all users', async () => {
+    let response = await mockRequest
+      .get('/admin/users')
+      .auth(adminToken, {type: 'bearer'});
 
-  });
-
-  xit('should get all users', async () => {
-
+    // since we created our driver and admin above, the body should only have two users
+    expect(response.body.length).toBe(2);
   });
 
   xit('should get requests', async () => {
@@ -286,7 +279,30 @@ describe('Admin router', () => {
   });
 
   it('should delete any user', async () => {
+    const userInfo = {
+      username: 'user',
+      name: 'user',
+      password: 'user',
+      role: 'user',
+    }
 
+    let newUser = await User.create(userInfo);
+    let users = await mockRequest
+      .get('/admin/users')
+      .auth(adminToken, {type: 'bearer'});
+    
+    expect(users.body.length).toBe(1);
+
+    let response = await mockRequest
+      .delete(`/admin/users/${newUser._id}`)
+      .auth(adminToken, {type: 'bearer'});
+
+    users = await mockRequest
+      .get('/admin/users')
+      .auth(adminToken, {type: 'bearer'});
+
+    expect(response.status).toBe(204);
+    expect(users.body.length).toBe(0);
   });
 
   it('should delete requests', async () => {
