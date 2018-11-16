@@ -11,6 +11,9 @@ import reqDon from '../src/models/request-donation.js';
 
 const mockRequest = supergoose(app);
 
+//Need this line for Wallaby
+process.env.SECRET = 'SECRET';
+
 // -------------------------------------------------------------------
 // Global Tokens
 // Holds our admin token and driver, request, and donation objects
