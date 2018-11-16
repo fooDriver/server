@@ -2,18 +2,27 @@
 
 fooDriver is a comprehensive digital pantry application for mobile grocery stores and food pantries serving the needs of people with low mobility or limited access to nutritious food. With fooDriver organizations administering mobile food pantries will have an overview of their fleet of mobile pantries, food items stored in the pantry, the drivers and the stops on the routes. Drivers or people working on the mobile pantry can keep track of inventory and restock items depending on the demand along the route. Organizations or individuals donating food items will be able to add to the inventory of the mobile pantries. With fooDriver we intend to streamline the operations of mobile grocery units and bring involved parties closer together in the process. Additionally, an administrative CLI is available for quick connect and data entry.
 
-[![place holder](./images/foodriver.png)](./images/foodriver.png)
+**Server URL:** https://foodriverdb.herokuapp.com/
+
+[![logo](./images/foodriver.png)](./images/foodriver.png)
 
 ------
-## Table of content
+## Project Team
+- [Sara Bahrini](https://github.com/sarabahrini)
+- [Jen Carrigan](https://github.com/JenCarrigan)
+- [Ben Harris](https://github.com/harrishills)
+- [Timothy Li](https://github.com/Timinis)
+- [Trevor Stam](https://github.com/trevorstam)
+
+------
+## Table of Contents
 
 - [Application Architecture](#Application-Architecture)
-
+- [User Roles](#User-Roles)
 - [Installation](#installation)
-- [User Instructions](#User-Instructions)
+- [Getting Started](#Getting-Started)
 - [Dependencies](#Dependencies)
 - [License](#license)
-- [Links](#links)
 ------
 
 ### Application Architecture
@@ -23,14 +32,14 @@ FooDriver is a digital pantry application that uses Javascript-related technolog
 
 ------
 
-### Roles supported by the FooDriver application
+### User Roles
 - **Admin** will have full CRUD access and be able to view/review/approve/reject items submitted to the queue by submitter and update the pantry list with the items that have been previously approved and added to the data base.
 - **Donator** will be able to view and submit-to-post items to the digital pantry.
 - **Driver** will be able to take inventory(get) of the pantry, add (post) items to and remove(delete) from the pantry. The driver role could be the driver itself or somebody working on the mobile food pantry.
 - **User** will be able to retrieve (get) information about a pantry and its driver. In addition *users* can post a request to the driver role to stock up on a particular item.
 
 ------
-### Installing fooDriver
+### Installation
 <!-- How to install the app  -->
 - Clone the server
 - Once cloned make sure Node.js is installed. 
@@ -43,7 +52,7 @@ FooDriver is a digital pantry application that uses Javascript-related technolog
 - You can now begin using the app
 
 ------
-### Getting Started with fooDriver CLI
+### Getting Started
 - Clone the CLI repo
 - Once cloned `cd` into `src/lib` of the CLI repo.
 - Then enter the following in your terminal: `node commands.js --help`. This will give you a list of commands.
@@ -52,11 +61,10 @@ FooDriver is a digital pantry application that uses Javascript-related technolog
 - `node commands.js add-food` adds your food items to the pantry.
 - `node commands.js get-food` gets the food items available in the pantry
 
-
 ------
 ### Dependencies
 
-babel-env, babel-core, babel-eslint,babel-jest,babel-polyfill,babel-register, bcrypt, dotenv, eslint, express, jest, jsonwebtoken, mongoose, mongoose-autopopulate, mongodb-memory-server, supertest
+babel-env, babel-core, babel-eslint, babel-jest, babel-polyfill,babel-register, bcrypt, dotenv, eslint, express, jest, jsonwebtoken, mongoose, mongoose-autopopulate, mongodb-memory-server, supertest
 
 ------
 ### License
