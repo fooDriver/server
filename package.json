@@ -1,0 +1,43 @@
+{
+  "name": "fooDriver",
+  "version": "1.0.0",
+  "description": "Server app for fooDriver",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --coverage --verbose --collectCoverageFrom=src/**/*.js --collectCoverageFrom=!src/app.js",
+    "watch": "jest --coverage --verbose --watchAll",
+    "lint": "eslint '**/*.js'",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fooDriver/server.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fooDriver/server/issues"
+  },
+  "homepage": "https://github.com/fooDriver/server#readme",
+  "dependencies": {
+    "babel-env": "^2.4.1",
+    "babel-polyfill": "^6.26.0",
+    "babel-register": "^6.26.0",
+    "bcrypt": "^3.0.2",
+    "dotenv": "^6.1.0",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.3.0",
+    "mongoose": "^5.3.11",
+    "mongoose-autopopulate": "^0.9.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^10.0.1",
+    "babel-jest": "^23.6.0",
+    "eslint": "^5.9.0",
+    "jest": "^23.6.0",
+    "mongodb-memory-server": "^2.7.2",
+    "supertest": "^3.3.0"
+  }
+}
