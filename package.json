@@ -6,8 +6,8 @@
   "scripts": {
     "test": "jest --coverage --verbose --collectCoverageFrom=src/**/*.js --collectCoverageFrom=!src/app.js",
     "watch": "jest --coverage --verbose --watchAll",
-    "lint": "eslint '**/*.js'"
-    "start": "node index.js",
+    "lint": "eslint '**/*.js'",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
