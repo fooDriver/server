@@ -9,13 +9,9 @@ import express from 'express';
 const driverRouter = express.Router();
 
 //Models
-import driverRoute from '../models/driver-route';
 import pantry from '../models/pantry';
-import food from '../models/food';
-import stops from '../models/stops';
 import users from '../models/users';
 import auth from '../middleware/auth.js';
-import sendJSON from '../middleware/sendJSON';
 
 //--------------------------------------
 //* Routes

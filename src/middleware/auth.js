@@ -19,12 +19,12 @@ export default capability => {
       let [authType, authString] = req.headers.authorization.split(/\s+/);
       // Switch case for the different type of authorization
       switch (authType.toLowerCase()) {
-        case 'basic':
-          return authBasic(authString);
-        case 'bearer':
-          return authBearer(authString);
-        default:
-          return failToAuth();
+      case 'basic':
+        return authBasic(authString);
+      case 'bearer':
+        return authBearer(authString);
+      default:
+        return failToAuth();
       }
     } catch (err) {
       return failToAuth();
@@ -37,7 +37,7 @@ export default capability => {
       let [username, password] = bufferString.split(':');
       let auth = {
         username,
-        password
+        password,
       };
       return User.authenticateBasic(auth).then(user => authenticate(user));
     }
@@ -66,7 +66,7 @@ export default capability => {
       next({
         status: 401,
         statusMessage: 'Unauthorized',
-        message: 'Invalid User ID/Password'
+        message: 'Invalid User ID/Password',
       });
     }
   };

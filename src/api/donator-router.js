@@ -15,6 +15,7 @@ import reqDon from '../models/request-donation';
 // Middleware
 import auth from '../middleware/auth';
 import sendJSON from '../middleware/sendJSON';
+import notFound from '../middleware/404.js';
 
 // routes all the users with the role of driver and populate routes with stops
 donRouter.get('/donator/driver-routes', auth('user'), async (req, res, next) => {
@@ -35,6 +36,9 @@ donRouter.get('/donator/driver-routes/:name', auth('user'), async (req, res, nex
     const driverRoutes = await users.findOne({
       username: req.params.name,
     });
+    if(!driverRoutes) {
+      notFound(req, res, next);
+    }
     sendJSON(res, driverRoutes);
   }
   catch (err) {
@@ -48,6 +52,10 @@ donRouter.post('/donator/driver-routes/donation/:name', auth('user'), async (req
     const driver = await users.findOne({
       username: req.params.name,
     });
+
+    if(!driver) {
+      notFound(req, res, next);
+    }
 
     let donate = {
       driver: driver._id,

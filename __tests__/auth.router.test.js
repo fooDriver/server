@@ -40,7 +40,7 @@ describe('Auth signUp for users ', () => {
     let response = await mockRequest.post('/signup').send({
       username: 'billyjoe',
       name: 'Billy',
-      password: 'secretpassword'
+      password: 'secretpassword',
     });
     expect(response.status).toBe(200);
     expect(typeof response.text).toBe('string'); // matches randomly generated token string
@@ -51,7 +51,7 @@ describe('Auth signUp for users ', () => {
       username: 'billyjoe',
       name: 'Billy',
       password: 'secretpassword',
-      role: 'admin'
+      role: 'admin',
     });
     expect(response.status).toBe(403);
     expect(response.text).toBe('Admin access only, please do not select role');
@@ -65,7 +65,7 @@ describe('Auth signUp for users ', () => {
 
   it('should return an error when a username and password are both not present', async () => {
     try {
-      let user = await createUser('Billy');
+      await createUser('Billy');
     } catch (error) {
       expect(error.message).toBe(
         'users validation failed: name: Path `name` is required., password: Path `password` is required.'
@@ -75,7 +75,7 @@ describe('Auth signUp for users ', () => {
 
   it('should return an error when the username is not present', async () => {
     try {
-      let user = await createUser(undefined, 'Billy', 'goat');
+      await createUser(undefined, 'Billy', 'goat');
     } catch (error) {
       expect(error.message).toEqual(
         expect.stringContaining('username: Path `username` is required')
@@ -85,7 +85,7 @@ describe('Auth signUp for users ', () => {
 
   it('should return an error when the password is not present', async () => {
     try {
-      let user = await createUser('billyjoe', 'Billy', undefined);
+      await createUser('billyjoe', 'Billy', undefined);
     } catch (error) {
       expect(error.message).toEqual(
         expect.stringContaining(
@@ -105,7 +105,7 @@ describe('Admin signUp ', () => {
         username: 'billyjoe',
         name: 'Billy',
         password: 'secretpassword',
-        role: 'admin'
+        role: 'admin',
       })
       .auth(admin.username, 'timmyrulz');
     expect(response.status).toEqual(200);
@@ -120,7 +120,7 @@ describe('Admin signUp ', () => {
         username: 'billyjoe',
         name: 'Billy',
         password: 'secretpassword',
-        role: 'admin'
+        role: 'admin',
       })
       .auth(nonAdmin.username, 'silverbullet');
     expect(response.status).toEqual(401);
@@ -141,7 +141,7 @@ describe('Signin Test', () => {
     let response = await mockRequest.post('/signup').send({
       username: 'billyjoe',
       name: 'Billy',
-      password: 'secretpassword'
+      password: 'secretpassword',
     });
 
     let token = response.text;

@@ -26,28 +26,16 @@ app.use(userRouter);
 //--------------------------------------
 //* Start Server
 //--------------------------------------
-let isRunning = false;
-module.exports = {
-  app, // es6 syntax
+let server;
 
-  start: port => {
-    if (!isRunning) {
-      app.listen(port, err => {
-        if (err) {
-          throw err;
-        }
-        isRunning = true;
-        console.log('Connected to WEB server on port:', port);
-      });
-    } else {
-      console.log('Server is already running');
-    }
+module.exports =  {
+  app,
+  start: (port) => {
+    server = app.listen(port, () => console.log('Listening on port ' + port));
   },
-
   stop: () => {
-    app.close(() => {
-      isRunning = false;
+    server.close( () => {
       console.log('Server has been stopped');
     });
-  }
+  },
 };

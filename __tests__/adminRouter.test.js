@@ -30,7 +30,7 @@ beforeAll(async () => {
     name: 'admin',
     password: 'admin',
     role: 'admin',
-  }
+  };
   let newAdmin = new User(adminInfo);
   let savedAdmin = await newAdmin.save();
   adminToken = savedAdmin.generateToken();
@@ -40,7 +40,7 @@ beforeAll(async () => {
     name: 'driver',
     password: 'driver',
     role: 'driver',
-  }
+  };
   let newDriver = new User(driverInfo);
   driver = await newDriver.save();
 
@@ -49,13 +49,13 @@ beforeAll(async () => {
     address: '123 Happy Lane',
     food: 'yams',
     reqOrDon: 'donation',
-  }
+  };
   const donationTwoInfo = {
     driver: driver._id,
     address: '1600 Pennsylvania Ave',
     food: 'wig',
     reqOrDon: 'donation',
-  }
+  };
 
   let newDonation1 = new reqDon(donationOneInfo);
   yamDonation = await newDonation1.save();
@@ -67,16 +67,16 @@ beforeAll(async () => {
     address: '45 Depression Lane',
     food: 'toothpaste',
     reqOrDon: 'request',
-  }
+  };
   const requestTwoInfo = {
     driver: driver._id,
     address: '45 Depession Lane',
     food: 'yams',
     reqOrDon: 'request',
-  }
+  };
 
   let newRequest1 = new reqDon(requestOneInfo);
-  await newRequest1.save()
+  await newRequest1.save();
   let newRequest2 = new reqDon(requestTwoInfo);
   yamRequest = await newRequest2.save();
 });
@@ -251,14 +251,13 @@ describe('Admin router', () => {
       .auth(adminToken, {type: 'bearer'});
 
     // since we created our driver and admin above, the body should only have two users
-
     expect(response.body.length).toBe(2);
   });
 
   it('should get requests', async () => {
     let response = await mockRequest
       .get(`/admin/driver-routes/requests/${driver.username}`)
-      .auth(adminToken, {type: 'bearer'})
+      .auth(adminToken, {type: 'bearer'});
 
     expect(response.body.length).toBe(2);
     expect(response.body[1].food).toBe('yams');
@@ -267,7 +266,7 @@ describe('Admin router', () => {
   it('should get donations', async () => {
     let response = await mockRequest
       .get(`/admin/driver-routes/donation/${driver.username}`)
-      .auth(adminToken, {type: 'bearer'})
+      .auth(adminToken, {type: 'bearer'});
 
     expect(response.body.length).toBe(2);
     expect(response.body[1].food).toBe('wig');
@@ -393,7 +392,7 @@ describe('Admin router', () => {
       name: 'user',
       password: 'user',
       role: 'user',
-    }
+    };
 
     let newUser = await User.create(userInfo);
     let users = await mockRequest
@@ -427,7 +426,7 @@ describe('Admin router', () => {
   it('should delete donations', async () => {
     //let's delete the yam donation
     let response = await mockRequest
-      .delete(`/admin/driver-routes/donation/${driver.username}/${yamRequest._id}`)
+      .delete(`/admin/driver-routes/donation/${driver.username}/${yamDonation._id}`)
       .auth(adminToken, {type: 'bearer'});
 
     expect(response.status).toBe(204);
