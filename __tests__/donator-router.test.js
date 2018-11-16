@@ -8,10 +8,10 @@
 require('dotenv').config();
 import supergoose, {
   startDB,
-  stopDB
+  stopDB,
 } from './supergoose.js';
 import {
-  app
+  app,
 } from '../src/app';
 import User from '../src/models/users';
 
@@ -84,6 +84,14 @@ describe('Donator router', () => {
     expect(response.body._id).toBe(driver._id.toString());
   });
 
+  it('should throw a 404 if person does not exist', async () => {
+    let response = await mockRequest
+      .get(`/donator/driver-routes/bob`)
+      .auth(donToken,{type:'bearer'});
+
+    expect(response.status).toBe(404);
+  });
+
   //---------------------------------
   //    POST ROUTES
   //---------------------------------
@@ -94,6 +102,14 @@ describe('Donator router', () => {
       .auth(donToken,{type:'bearer'})
       .send({food: 'tortillas'});
     expect(response.body.driver).toBe(driver._id.toString());
-  })
+  });
 
+  it('should throw a 404 if person does not exist', async () => {
+    let response = await mockRequest
+      .post(`/donator/driver-routes/donation/bob`)
+      .auth(donToken,{type:'bearer'})
+      .send({food: 'tortillas'});
+
+    expect(response.status).toBe(404);
+  });
 });

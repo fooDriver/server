@@ -20,7 +20,7 @@ import auth from '../middleware/auth.js';
 userRouter.get('/user/driver-routes', auth('user'), async (req, res, next) => {
   try {
     let drivers = await users.find({
-      role: 'driver'
+      role: 'driver',
     });
     sendJSON(res, drivers);
   } catch (error) {
@@ -30,7 +30,7 @@ userRouter.get('/user/driver-routes', auth('user'), async (req, res, next) => {
 userRouter.get('/user/driver-routes/:name', auth('user'), async (req, res, next) => {
   try {
     let driver = await users.findOne({
-      username: req.params.name
+      username: req.params.name,
     });
     sendJSON(res, driver);
   } catch (error) {
@@ -49,7 +49,7 @@ userRouter.post('/user/driver-routes/request/:name', auth('user'), async (req, r
       driver: driver._id,
       address: req.user.address,
       food: req.body.food,
-      reqOrDon: 'request'
+      reqOrDon: 'request',
     };
 
     let newRequest = await reqDon.create(request);

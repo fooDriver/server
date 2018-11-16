@@ -12,9 +12,6 @@ const authRouter = express.Router();
 import User from '../models/users.js';
 import auth from '../middleware/auth';
 
-//middleware JSON sending module
-import sendJSON from '../middleware/sendJSON';
-
 //--------------------------------------
 //* Auth Router
 //--------------------------------------

@@ -64,9 +64,9 @@ adminRouter.get('/admin/users', auth('admin'), async (req, res, next) => {
       $group: {
         _id: '$role',
         people: {
-          $push: '$$ROOT'
+          $push: '$$ROOT',
         },
-      }
+      },
     }]);
     sendJSON(res, sendUsers);
   }
@@ -80,7 +80,7 @@ adminRouter.get('/admin/driver-routes/donation/:username', auth('admin'), async 
     const foundDriver = await user.findOne({username: req.params.username});
     const donation = await rd.find({
       driver: foundDriver._id,
-      reqOrDon: 'donation'
+      reqOrDon: 'donation',
     });
     sendJSON(res, donation);
   }

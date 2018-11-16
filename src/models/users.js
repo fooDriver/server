@@ -23,8 +23,8 @@ const userSchema = new Schema({
     type: String,
     required: true,
     default: 'user',
-    enum: ['admin', 'driver', 'donator', 'user']
-  }
+    enum: ['admin', 'driver', 'donator', 'user'],
+  },
 });
 
 const capabilities = {
@@ -88,7 +88,7 @@ userSchema.methods.comparePassword = function(password) {
 userSchema.methods.generateToken = function() {
   let tokenData = {
     id: this._id,
-    capabilities: capabilities[this.role]
+    capabilities: capabilities[this.role],
   };
 
   return jwt.sign(tokenData, process.env.SECRET);

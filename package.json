@@ -4,8 +4,9 @@
   "description": "Server app for fooDriver",
   "main": "index.js",
   "scripts": {
-    "test": "jest --coverage --verbose",
-    "watch": "jest --coverage --verbose --watchAll"
+    "test": "jest --coverage --verbose --collectCoverageFrom=src/**/*.js --collectCoverageFrom=!src/app.js",
+    "watch": "jest --coverage --verbose --watchAll",
+    "lint": "eslint '**/*.js'"
   },
   "repository": {
     "type": "git",
