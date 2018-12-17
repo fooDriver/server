@@ -48,7 +48,6 @@ userSchema.pre('save', function(next) {
 });
 
 //This is the basic authorization statics method for comparing username and password;
-
 userSchema.statics.authenticateBasic = function(auth) {
   let query = { username: auth.username };
   //this is mongo built in method to locate the item
