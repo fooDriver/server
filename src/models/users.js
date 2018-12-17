@@ -5,6 +5,7 @@
 import mongoose, { Schema } from 'mongoose';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+require('mongoose-schema-jsonschema')(mongoose);
 
 //--------------------------------------------------
 //* Address: Added property for users and donators
@@ -17,7 +18,7 @@ import jwt from 'jsonwebtoken';
 const userSchema = new Schema({
   firstName: { type: String, required: true},
   lastName: { type: String, required: true},
-  email: { type: String, required: true, unique: true },
+  username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   role: {
     type: String,
@@ -30,8 +31,8 @@ const userSchema = new Schema({
 const capabilities = {
   client: ['client'],
   donator: ['donator'],
-  driver: ['driver', 'client'],
-  admin: ['admin', 'driver', 'client'],
+  driver: ['driver'],
+  admin: ['admin', 'driver', 'donator', 'client'],
 };
 
 //This is the save function for signup use .save method to access save functionality on the signup
@@ -53,7 +54,7 @@ userSchema.statics.authenticateBasic = function(auth) {
   //this is mongo built in method to locate the item
   return this.findOne(query)
     .then(user => user && user.comparePassword(auth.password))
-    .catch(error => error);
+    .catch(error => console.error);
 };
 
 //This is the bearer authorization statics method to compare token entered in;
@@ -92,5 +93,7 @@ userSchema.methods.generateToken = function() {
 
   return jwt.sign(tokenData, process.env.SECRET);
 };
+
+console.dir(mongoose.model('users', userSchema).jsonSchema('firstName lastName username password'), {depth: null});
 
 export default mongoose.model('users', userSchema);

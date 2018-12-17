@@ -3,6 +3,7 @@
 //--------------------------------------
 
 import mongoose, { Schema } from 'mongoose';
+require('mongoose-schema-jsonschema')(mongoose);
 
 const requestDonationSchema = new Schema({
   driver: {
@@ -15,6 +16,9 @@ const requestDonationSchema = new Schema({
   food: String,
   reqOrDon: String, 
 });
+
+let jsonSchema = requestDonationSchema.jsonSchema();
+console.dir(jsonSchema, {depth: null});
 
 requestDonationSchema.plugin(require('mongoose-autopopulate'));
 

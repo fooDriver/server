@@ -39,9 +39,9 @@ driverRouter.post('/driver/driver-routes/:name', auth('driver'), async (req, res
   }
 });
 
-driverRouter.delete('/driver/driver-routes/:name/:foodid', auth('driver'), async(req, res, next) => {
+driverRouter.delete('/driver/driver-routes/:id/:foodid', auth('driver'), async(req, res, next) => {
   try{
-    let driver = await users.findOne({username: req.params.name});
+    let driver = await users.findById(req.params.id);
     let driverPantry = await pantry.findOne({driver: driver._id});
     const index = driverPantry.pantryItems.findIndex(food => JSON.stringify(food._id) == JSON.stringify(req.params.foodid));
     if (index === -1) {
