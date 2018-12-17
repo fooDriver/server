@@ -17,7 +17,7 @@ import auth from '../middleware/auth.js';
 //--------------------------------------
 //* Routes
 //--------------------------------------
-userRouter.get('/user/driver-routes', auth('user'), async (req, res, next) => {
+userRouter.get('/user/driver-routes', auth('client'), async (req, res, next) => {
   try {
     let drivers = await users.find({
       role: 'driver',
@@ -27,18 +27,16 @@ userRouter.get('/user/driver-routes', auth('user'), async (req, res, next) => {
     next();
   }
 });
-userRouter.get('/user/driver-routes/:name', auth('user'), async (req, res, next) => {
+userRouter.get('/user/driver-routes/:id', auth('client'), async (req, res, next) => {
   try {
-    let driver = await users.findOne({
-      username: req.params.name,
-    });
+    let driver = await users.findById(req.params.id);
     sendJSON(res, driver);
   } catch (error) {
     next();
   }
 });
 
-userRouter.post('/user/driver-routes/request/:name', auth('user'), async (req, res, next) => {
+userRouter.post('/user/driver-routes/request/:name', auth('client'), async (req, res, next) => {
   try {
 
     const driver = await users.findOne({

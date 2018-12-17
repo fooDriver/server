@@ -35,6 +35,7 @@ export default capability => {
       let base64Buffer = Buffer.from(authString, 'base64');
       let bufferString = base64Buffer.toString();
       let [username, password] = bufferString.split(':');
+      console.log({username}, {password});
       let auth = {
         username,
         password,
@@ -53,6 +54,7 @@ export default capability => {
     //helper to determine the user's role
     function authenticate(user) {
       if (user && (!capability || user.can(capability))) {
+        
         req.user = user;
         req.token = user.generateToken();
         next();
