@@ -15,23 +15,23 @@ import jwt from 'jsonwebtoken';
 //--------------------------------------------------
 
 const userSchema = new Schema({
-  username: { type: String, required: true, unique: true },
-  name: { type: String, required: true },
+  firstName: { type: String, required: true},
+  lastName: { type: String, required: true},
+  email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  address: String,
   role: {
     type: String,
     required: true,
-    default: 'user',
-    enum: ['admin', 'driver', 'donator', 'user'],
+    default: 'client',
+    enum: ['admin', 'driver', 'donator', 'client'],
   },
 });
 
 const capabilities = {
-  user: ['user'],
-  donator: ['user'],
-  driver: ['driver', 'user'],
-  admin: ['admin', 'driver', 'user'],
+  client: ['client'],
+  donator: ['donator'],
+  driver: ['driver', 'client'],
+  admin: ['admin', 'driver', 'client'],
 };
 
 //This is the save function for signup use .save method to access save functionality on the signup
