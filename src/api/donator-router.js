@@ -18,7 +18,7 @@ import sendJSON from '../middleware/sendJSON';
 import notFound from '../middleware/404.js';
 
 // routes all the users with the role of driver and populate routes with stops
-donRouter.get('/donator/driver-routes', auth('user'), async (req, res, next) => {
+donRouter.get('/donator/driver-routes', auth('donator'), async (req, res, next) => {
   try {
     const driverRoutes = await users.find({
       role: 'driver',
@@ -31,7 +31,7 @@ donRouter.get('/donator/driver-routes', auth('user'), async (req, res, next) => 
 });
 
 // single user with role of driver populate pantry with food populate routes with stops
-donRouter.get('/donator/driver-routes/:name', auth('user'), async (req, res, next) => {
+donRouter.get('/donator/driver-routes/:name', auth('donator'), async (req, res, next) => {
   try {
     const driverRoutes = await users.findOne({
       username: req.params.name,
@@ -47,7 +47,7 @@ donRouter.get('/donator/driver-routes/:name', auth('user'), async (req, res, nex
 });
 
 // sends address and food of the user
-donRouter.post('/donator/driver-routes/donation/:name', auth('user'), async (req, res, next) => {
+donRouter.post('/donator/driver-routes/donation/:name', auth('donator'), async (req, res, next) => {
   try {
     const driver = await users.findOne({
       username: req.params.name,
