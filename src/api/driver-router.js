@@ -10,6 +10,7 @@ const driverRouter = express.Router();
 
 //Models
 import pantry from '../models/pantry';
+import amount from '../models/quantity.js';
 import users from '../models/users';
 import auth from '../middleware/auth.js';
 import route from '../models/driver-route.js';
@@ -35,6 +36,18 @@ driverRouter.get('/driver/driver-routes/:id', auth('driver'), async (req, res, n
     next();
   }
 });
+
+driverRouter.post('/driver/quantity/:id', auth('driver'), async (req,res,next) => {
+  try {
+    let driverPantry = await pantry.find({driver: req.params.id});
+    let foodToChange = await driverPantry.find({food: req.body.food});
+    foodToChange.quantity = req.body.quantity;
+    res.send(foodToChange);
+  }
+  catch (err) {
+    next();
+  }
+})
 
 driverRouter.post('/driver/driver-routes/:name', auth('driver'), async (req, res, next) => {
   try{
