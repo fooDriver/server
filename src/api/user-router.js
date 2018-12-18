@@ -38,16 +38,10 @@ userRouter.get('/user/driver-routes/:id', auth('client'), async (req, res, next)
   }
 });
 
-userRouter.post('/user/driver-routes/request/:name', auth('client'), async (req, res, next) => {
+userRouter.post('/request', auth('client'), async (req, res, next) => {
   try {
 
-    const driver = await users.findOne({
-      username: req.params.name,
-    });
-
     let request = {
-      driver: driver._id,
-      address: req.user.address,
       food: req.body.food,
       reqOrDon: 'request',
     };
