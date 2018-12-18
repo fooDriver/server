@@ -1,5 +1,5 @@
 //--------------------------------------
-//* Pantry Schema
+//* Quantity Schema
 //--------------------------------------
 
 import mongoose, { Schema } from 'mongoose';
@@ -9,20 +9,20 @@ import mongoose, { Schema } from 'mongoose';
 //* Pantry items are an array of foods
 //--------------------------------------------------
 
-const pantrySchema = new Schema({
-  driver: {
+const quantitySchema = new Schema({
+  pantry: {
     type: Schema.Types.ObjectId,
-    ref: 'users',
+    ref: 'pantry',
     autopopulate: true,
   },
-  pantryItems: [{
+  food: {
     type: Schema.Types.ObjectId,
-    ref: 'amount',
+    ref: 'food',
     autopopulate: true,
-  }],
+  },
+  quantity: Number,
 });
 
-pantrySchema.plugin(require('mongoose-autopopulate'));
+quantitySchema.plugin(require('mongoose-autopopulate'));
 
-
-export default mongoose.model('pantry', pantrySchema);
+export default mongoose.model('amount', quantitySchema);
