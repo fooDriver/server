@@ -6,6 +6,7 @@
 
 // Dependencies
 import express from 'express';
+import cors from 'cors';
 import authRouter from './api/auth-router.js';
 import driverRouter from './api/driver-router.js';
 import adminRouter from './api/adminRouter.js';
@@ -16,6 +17,7 @@ import userRouter from './api/user-router.js';
 const app = express();
 
 // Middleware
+app.use(cors());
 app.use(express.json()); // json parser
 app.use(authRouter);
 app.use(adminRouter);

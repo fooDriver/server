@@ -3,7 +3,6 @@
 //--------------------------------------
 
 import mongoose, { Schema } from 'mongoose';
-require('mongoose-schema-jsonschema')(mongoose);
 
 const stopsSchema = new Schema({
   location: {
@@ -17,9 +16,6 @@ const stopsSchema = new Schema({
     autopopulate: true,
   },
 });
-
-let jsonSchema = stopsSchema.jsonSchema();
-console.dir(jsonSchema, {depth: null});
 
 stopsSchema.plugin(require('mongoose-autopopulate'));
 
