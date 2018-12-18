@@ -11,6 +11,7 @@ const adminRouter = express.Router();
 // Dependencies
 import dRoute from '../models/driver-route.js';
 import food from '../models/food.js';
+import amount from '../models/quantity.js';
 import pantry from '../models/pantry.js';
 import stop from '../models/stops.js';
 import rd from '../models/request-donation.js';
@@ -107,6 +108,16 @@ adminRouter.post('/admin/food', auth('admin'), async (req, res, next) => {
   try {
     let newFood = await food.create(req.body);
     sendJSON(res, newFood);
+  }
+  catch (err) {
+    next();
+  }
+});
+
+adminRouter.post('/admin/quantity', auth('admin'), async (req, res, next) => {
+  try {
+    let newAmount = await amount.create(req.body);
+    sendJSON(res, newAmount);
   }
   catch (err) {
     next();
