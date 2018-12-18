@@ -5,7 +5,6 @@
 import mongoose, { Schema } from 'mongoose';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-require('mongoose-schema-jsonschema')(mongoose);
 
 //--------------------------------------------------
 //* Address: Added property for users and donators
@@ -93,7 +92,5 @@ userSchema.methods.generateToken = function() {
 
   return jwt.sign(tokenData, process.env.SECRET);
 };
-
-console.dir(mongoose.model('users', userSchema).jsonSchema('firstName lastName username password'), {depth: null});
 
 export default mongoose.model('users', userSchema);

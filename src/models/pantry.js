@@ -3,7 +3,6 @@
 //--------------------------------------
 
 import mongoose, { Schema } from 'mongoose';
-require('mongoose-schema-jsonschema')(mongoose);
 
 //--------------------------------------------------
 //* Pantry only has single driver
@@ -22,9 +21,6 @@ const pantrySchema = new Schema({
     autopopulate: true,
   }],
 });
-
-let jsonSchema = pantrySchema.jsonSchema();
-console.dir(jsonSchema, {depth: null});
 
 pantrySchema.plugin(require('mongoose-autopopulate'));
 
