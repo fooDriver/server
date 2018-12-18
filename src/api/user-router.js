@@ -17,6 +17,12 @@ import auth from '../middleware/auth.js';
 //--------------------------------------
 //* Routes
 //--------------------------------------
+
+userRouter.get('/user/schema', (req,res) => {
+  console.log('in user sce');
+  res.json(users.jsonSchema('firstName lastName username password'));
+});
+
 userRouter.get('/user/driver-routes', auth('client'), async (req, res, next) => {
   try {
     let drivers = await users.find({
@@ -27,6 +33,7 @@ userRouter.get('/user/driver-routes', auth('client'), async (req, res, next) => 
     next();
   }
 });
+
 userRouter.get('/user/driver-routes/:id', auth('client'), async (req, res, next) => {
   try {
     let driver = await users.findById(req.params.id);
