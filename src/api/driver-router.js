@@ -12,13 +12,23 @@ const driverRouter = express.Router();
 import pantry from '../models/pantry';
 import users from '../models/users';
 import auth from '../middleware/auth.js';
+import route from '../models/driver-route.js';
+import stops from '../models/stops.js';
 
 //--------------------------------------
 //* Routes
 //--------------------------------------
-driverRouter.get('/driver/driver-routes/:name', auth('driver'), async (req, res, next) => {
+driverRouter.get('/driver/driver-routes/:id', auth('driver'), async (req, res, next) => {
   try{
-    let driver = await users.findOne({username: req.params.name});
+    let itemsToSend = [];
+    let driver = await users.findById(req.params.id);
+    let driverPantry = await pantry.find({driver: req.params.id});
+    let driverRoute = await route.find({driver: req.params.id});
+    let driverStops = await stops.find({route: driverRoute[0]._id});
+    itemsToSend.push(driver);
+    itemsToSend.push(driverPantry[0].pantryItems);
+    itemsToSend.push(driverStops);
+    console.log(itemsToSend);
     res.send(driver);
   }
   catch(err) {
