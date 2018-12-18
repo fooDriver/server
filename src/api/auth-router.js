@@ -17,11 +17,6 @@ import auth from '../middleware/auth';
 //--------------------------------------
 //This route is for generic user puts a stopper for users to determine roles
 authRouter.post('/signup', (req, res, next) => {
-  if (req.body.role) {
-    res.statusCode = 403;
-    res.send(`Admin access only, please do not select role`);
-    res.end();
-  }
   let user = new User(req.body);
   user
     .save()
