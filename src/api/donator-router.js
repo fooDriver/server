@@ -48,13 +48,11 @@ donRouter.get('/donator/driver-routes/:name', auth('donator'), async (req, res, 
 
 donRouter.post('/donation', auth('donator'), async (req, res, next) => {
   try {
-
     let donate = {
-      address: req.user.address,
+      address: req.body.address,
       food: req.body.food,
       reqOrDon: 'donation',
     };
-
     let newDonation = new reqDon(donate);
     let response = await newDonation.save();
     sendJSON(res, response);

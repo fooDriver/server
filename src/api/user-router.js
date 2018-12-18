@@ -40,12 +40,10 @@ userRouter.get('/user/driver-routes/:id', auth('client'), async (req, res, next)
 
 userRouter.post('/request', auth('client'), async (req, res, next) => {
   try {
-
     let request = {
       food: req.body.food,
       reqOrDon: 'request',
     };
-
     let newRequest = await reqDon.create(request);
     sendJSON(res, newRequest);
   } 

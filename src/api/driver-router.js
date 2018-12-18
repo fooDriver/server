@@ -47,7 +47,7 @@ driverRouter.post('/driver/quantity/:id', auth('driver'), async (req,res,next) =
   catch (err) {
     next();
   }
-})
+});
 
 driverRouter.post('/driver/driver-routes/:name', auth('driver'), async (req, res, next) => {
   try{
