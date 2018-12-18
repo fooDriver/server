@@ -10,12 +10,12 @@ import mongoose, { Schema } from 'mongoose';
 //--------------------------------------------------
 
 const quantitySchema = new Schema({
+  quantity: Number,
   food: {
     type: Schema.Types.ObjectId,
     ref: 'food',
     autopopulate: true,
   },
-  quantity: Number,
 });
 
 quantitySchema.plugin(require('mongoose-autopopulate'));
