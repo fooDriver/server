@@ -10,7 +10,7 @@ import mongoose, { Schema } from 'mongoose';
 //--------------------------------------------------
 
 const quantitySchema = new Schema({
-  quantity: Number,
+  quantity: { type: Number, required: true },
   food: {
     type: Schema.Types.ObjectId,
     ref: 'food',
