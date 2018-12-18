@@ -10,11 +10,6 @@ import mongoose, { Schema } from 'mongoose';
 //--------------------------------------------------
 
 const quantitySchema = new Schema({
-  pantry: {
-    type: Schema.Types.ObjectId,
-    ref: 'pantry',
-    autopopulate: true,
-  },
   food: {
     type: Schema.Types.ObjectId,
     ref: 'food',
