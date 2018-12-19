@@ -22,7 +22,7 @@ donRouter.get('/donator/driver-routes', auth('donator'), async (req, res, next) 
   try {
     const driverRoutes = await users.find({
       role: 'driver',
-    });
+    }, '-password');
     sendJSON(res, driverRoutes);
   }
   catch (err) {
@@ -35,7 +35,7 @@ donRouter.get('/donator/driver-routes/:name', auth('donator'), async (req, res, 
   try {
     const driverRoutes = await users.findOne({
       username: req.params.name,
-    });
+    }, '-password');
     if(!driverRoutes) {
       notFound(req, res, next);
     }

@@ -22,7 +22,7 @@ userRouter.get('/user/driver-routes', auth('client'), async (req, res, next) => 
   try {
     let drivers = await users.find({
       role: 'driver',
-    });
+    }, '-password');
     sendJSON(res, drivers);
   } catch (error) {
     next();
@@ -31,7 +31,7 @@ userRouter.get('/user/driver-routes', auth('client'), async (req, res, next) => 
 
 userRouter.get('/user/driver-routes/:id', auth('client'), async (req, res, next) => {
   try {
-    let driver = await users.findById(req.params.id);
+    let driver = await users.findById(req.params.id, '-password');
     sendJSON(res, driver);
   } catch (error) {
     next();

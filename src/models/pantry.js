@@ -13,7 +13,7 @@ const pantrySchema = new Schema({
   driver: {
     type: Schema.Types.ObjectId,
     ref: 'users',
-    autopopulate: true,
+    //autopopulate: true,
   },
   pantryItems: [{
     type: Schema.Types.ObjectId,

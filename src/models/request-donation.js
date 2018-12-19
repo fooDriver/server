@@ -10,6 +10,4 @@ const requestDonationSchema = new Schema({
   reqOrDon: String, 
 });
 
-requestDonationSchema.plugin(require('mongoose-autopopulate'));
-
 export default mongoose.model('requestDonation', requestDonationSchema);
