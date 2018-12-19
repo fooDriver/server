@@ -76,11 +76,9 @@ adminRouter.get('/admin/users', auth('admin'), async (req, res, next) => {
   }
 });
 
-adminRouter.get('/admin/driver-routes/donation/:username', auth('admin'), async (req, res, next) => {
+adminRouter.get('/admin/donations', auth('admin'), async (req, res, next) => {
   try {
-    const foundDriver = await user.findOne({username: req.params.username});
     const donation = await rd.find({
-      driver: foundDriver._id,
       reqOrDon: 'donation',
     });
     sendJSON(res, donation);
@@ -90,11 +88,9 @@ adminRouter.get('/admin/driver-routes/donation/:username', auth('admin'), async 
   }
 });
 
-adminRouter.get('/admin/driver-routes/requests/:username', auth('admin'), async (req, res, next) => {
+adminRouter.get('/admin/requests', auth('admin'), async (req, res, next) => {
   try {
-    const foundDriver = await user.findOne({username: req.params.username});
     const request = await rd.find({
-      driver: foundDriver._id,
       reqOrDon: 'request',
     });
     sendJSON(res, request);
