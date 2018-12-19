@@ -22,7 +22,7 @@ import stops from '../models/stops.js';
 driverRouter.get('/driver/driver-routes/:id', auth('driver'), async (req, res, next) => {
   try{
     let itemsToSend = [];
-    let driver = await users.findById(req.params.id);
+    let driver = await users.findById(req.params.id, '-password');
     let driverPantry = await pantry.find({driver: req.params.id});
     let driverRoute = await route.find({driver: req.params.id});
     let driverStops = await stops.find({route: driverRoute[0]._id});
