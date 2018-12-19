@@ -29,8 +29,7 @@ driverRouter.get('/driver/driver-routes/:id', auth('driver'), async (req, res, n
     itemsToSend.push(driver);
     itemsToSend.push(driverPantry[0].pantryItems);
     itemsToSend.push(driverStops);
-    console.log(itemsToSend);
-    res.send(driver);
+    res.send({itemsToSend});
   }
   catch(err) {
     next();
@@ -39,10 +38,8 @@ driverRouter.get('/driver/driver-routes/:id', auth('driver'), async (req, res, n
 
 driverRouter.post('/driver/quantity/:id', auth('driver'), async (req,res,next) => {
   try {
-    let driverPantry = await pantry.find({driver: req.params.id});
-    let foodToChange = await driverPantry.find({food: req.body.food});
-    foodToChange.quantity = req.body.quantity;
-    res.send(foodToChange);
+    let foundQ = await amount.findByIdAndUpdate(req.params.id, req.body);
+    res.send(foundQ);
   }
   catch (err) {
     next();
