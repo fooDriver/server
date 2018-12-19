@@ -29,7 +29,7 @@ adminRouter.get('/admin/food', auth('admin'), async (req, res, next) => {
   }
 });
 
-adminRouter.get('/admin/stops', auth('admin'), async (req, res, next) => {
+adminRouter.get('/stops', async (req, res, next) => {
   try {
     const routeStops = await stop.find({});
     sendJSON(res, routeStops); 
@@ -49,7 +49,7 @@ adminRouter.get('/admin/driver-routes', auth('admin'), async (req, res, next) =>
   }
 });
 
-adminRouter.get('/admin/pantries', auth('admin'), async (req, res, next) => {
+adminRouter.get('/pantries', async (req, res, next) => {
   try {
     const pantries = await pantry.find({});
     sendJSON(res, pantries);
