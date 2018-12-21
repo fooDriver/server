@@ -12,7 +12,7 @@ import reqDon from '../src/models/request-donation.js';
 const mockRequest = supergoose(app);
 
 //Need this line for Wallaby
-process.env.SECRET = 'SECRET';
+//process.env.SECRET = 'SECRET';
 
 // -------------------------------------------------------------------
 // Global Tokens
@@ -30,7 +30,8 @@ beforeAll(async () => {
   await startDB();
   const adminInfo = {
     username: 'admin',
-    name: 'admin',
+    firstName: 'admin',
+    lastName: 'admin',
     password: 'admin',
     role: 'admin',
   };
@@ -40,7 +41,8 @@ beforeAll(async () => {
 
   const driverInfo = {
     username: 'driver',
-    name: 'driver',
+    firstName: 'driver',
+    lastName: 'driver',
     password: 'driver',
     role: 'driver',
   };
@@ -48,13 +50,11 @@ beforeAll(async () => {
   driver = await newDriver.save();
 
   const donationOneInfo = {
-    driver: driver._id,
     address: '123 Happy Lane',
     food: 'yams',
     reqOrDon: 'donation',
   };
   const donationTwoInfo = {
-    driver: driver._id,
     address: '1600 Pennsylvania Ave',
     food: 'wig',
     reqOrDon: 'donation',
@@ -66,14 +66,10 @@ beforeAll(async () => {
   await newDonation2.save();
 
   const requestOneInfo = {
-    driver: driver._id,
-    address: '45 Depression Lane',
     food: 'toothpaste',
     reqOrDon: 'request',
   };
   const requestTwoInfo = {
-    driver: driver._id,
-    address: '45 Depession Lane',
     food: 'yams',
     reqOrDon: 'request',
   };
@@ -214,8 +210,7 @@ describe('Admin router', () => {
       .send(stopTwoInfo);
 
     let response = await mockRequest
-      .get('/admin/stops')
-      .auth(adminToken, {type: 'bearer'});
+      .get('/stops');
 
     expect(response.body.length).toBe(2);
   });
@@ -240,7 +235,7 @@ describe('Admin router', () => {
 
   it('should get all pantries', async () => {
     let response = await mockRequest
-      .get('/admin/pantries')
+      .get('/pantries')
       .auth(adminToken, {type: 'bearer'});
     
     // we created our pantry earlier in the post test so we should expect there to be 1 pantry in our test
@@ -259,7 +254,7 @@ describe('Admin router', () => {
 
   it('should get requests', async () => {
     let response = await mockRequest
-      .get(`/admin/driver-routes/requests/${driver.username}`)
+      .get(`/admin/requests`)
       .auth(adminToken, {type: 'bearer'});
 
     expect(response.body.length).toBe(2);
@@ -268,7 +263,7 @@ describe('Admin router', () => {
 
   it('should get donations', async () => {
     let response = await mockRequest
-      .get(`/admin/driver-routes/donation/${driver.username}`)
+      .get(`/admin/donations`)
       .auth(adminToken, {type: 'bearer'});
 
     expect(response.body.length).toBe(2);
@@ -333,8 +328,7 @@ describe('Admin router', () => {
     expect(response.status).toBe(204);
 
     let newStops = await mockRequest
-      .get('/admin/stops')
-      .auth(adminToken, {type: 'bearer'});
+      .get('/stops');
 
     //NOTE: this is three instead of one from the tests earlier
     expect(newStops.body.length).toBe(3);
@@ -366,8 +360,7 @@ describe('Admin router', () => {
 
   it('should delete a pantry', async () => {
     let response = await mockRequest
-      .get('/admin/pantries')
-      .auth(adminToken, {type: 'bearer'});
+      .get('/pantries')
   
     // we created our pantry earlier in the post test so we should expect there to be 1 pantry in our test
 
@@ -382,8 +375,7 @@ describe('Admin router', () => {
     expect(deleted.status).toBe(204);
 
     let newRes = await mockRequest
-      .get('/admin/pantries')
-      .auth(adminToken, {type: 'bearer'});
+      .get('/pantries')
 
     expect(newRes.body.length).toBe(0);
 
@@ -392,9 +384,10 @@ describe('Admin router', () => {
   it('should delete any user', async () => {
     const userInfo = {
       username: 'user',
-      name: 'user',
+      firstName: 'user',
+      lastName: 'user',
       password: 'user',
-      role: 'user',
+      role: 'client',
     };
 
     let newUser = await User.create(userInfo);

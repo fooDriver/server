@@ -111,15 +111,11 @@ adminRouter.post('/admin/food', auth('admin'), async (req, res, next) => {
 });
 
 adminRouter.post('/admin/quantity', auth('admin'), async (req, res, next) => {
-  console.log('in quantity');
-  console.log(req.body);
   try {
     let newAmount = await amount.create(req.body);
-    console.log(newAmount);
     sendJSON(res, newAmount);
   }
   catch (err) {
-    console.log('sup');
     next();
   }
 });
@@ -146,7 +142,6 @@ adminRouter.post('/admin/driver-routes', auth('admin'), async (req, res, next) =
 
 adminRouter.post('/admin/pantries', auth('admin'), async (req, res, next) => {
   try {
-    console.log(req.body);
     const newPantry = await pantry.create(req.body);
     sendJSON(res, newPantry);
   }
