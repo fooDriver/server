@@ -6,6 +6,9 @@ import { app } from '../src/app';
 import User from '../src/models/users';
 import food from '../src/models/food.js';
 import pantry from '../src/models/pantry.js';
+import itemAmount from '../src/models/quantity.js';
+import route from '../src/models/driver-route.js';
+import stops from '../src/models/stops.js';
 
 const mockRequest = supergoose(app);
 
@@ -20,6 +23,9 @@ let token;
 let testDriver;
 let apples;
 let driverPantry;
+let amount;
+let driverRoute;
+let routeStops;
 
 // ---------------------------------------------------
 // Server, mock driver, pantry, and food creation
@@ -27,9 +33,10 @@ let driverPantry;
 beforeAll(async () => {
   await startDB();
   let info = {
-    username: 'driver',
-    name: 'driver',
-    password: 'driver',
+    username: 'driverdan',
+    firstName: 'dan',
+    lastName: 'pickles',
+    password: 'password',
     role: 'driver',
   };
   let newDriver = new User(info);
@@ -43,13 +50,37 @@ beforeAll(async () => {
   let newFood = new food(foodInfo);
   apples = await newFood.save();
 
+  let appleAmount = {
+    quantity: 5,
+    food: apples._id,
+  }
+
+  let newAmount = new itemAmount(appleAmount);
+  amount = await newAmount.save();
+
   let pantryInfo = {
     driver: testDriver._id,
-    pantryItems: [],
+    pantryItems: [amount._id],
   };
 
   let newPantry = new pantry(pantryInfo);
   driverPantry = await newPantry.save();
+
+  let routeInfo = {
+    name: 'Route A',
+    driver: testDriver._id,
+  }
+
+  let newRoute = new route(routeInfo);
+  driverRoute = await newRoute.save();
+
+  let stopsInfo = {
+    route: driverRoute._id,
+    location: '1st and Broad',
+  }
+
+  let newStop = new stops(stopsInfo);
+  routeStops = await newStop.save();
 });
 afterAll(stopDB);
 
@@ -62,36 +93,25 @@ describe('Driver router', () => {
   //    GET ROUTES
   //---------------------------------
   it('should get the driver route with the driver name sending the driver name ', async () => {
-    let response = await mockRequest.get('/driver/driver-routes/driver').auth(token, { type: 'bearer' });
+    let response = await mockRequest
+      .get(`/driver/driver-routes/${testDriver._id}`)
+      .auth(token, { type: 'bearer' });
+
     expect(response.status).toBe(200);
-    let driver = JSON.parse(response.text);
-    expect(driver.username).toBe('driver');
-    expect(driver.name).toBe('driver');
   });
 
   //---------------------------------
   //    POST ROUTES
   //---------------------------------
-  it('should post driver pantry with the driver name', async () => {
-    expect(driverPantry.pantryItems.length).toEqual(0);
-    let response = await mockRequest.post('/driver/driver-routes/driver').auth(token, { type: 'bearer' }).send(apples);
-    expect(response.body.pantryItems.length).toEqual(1);
+  it('should change quantity of foods', async () => {
+    let response = await mockRequest
+      .post(`/driver/quantity/${amount._id}`)
+      .auth(token, { type: 'bearer' })
+      .send({
+        quantity: 6,
+        food: apples._id,
+      });
+
     expect(response.status).toBe(200);
-  });
-
-  //---------------------------------
-  //    DELETE ROUTES
-  //---------------------------------
-  it('should delete food from pantry with driver name and food id', async () => {
-
-    let deleted = await mockRequest
-      .delete(`/driver/driver-routes/driver/${apples._id}`)
-      .auth(token, { type: 'bearer' });
-    expect(deleted.status).toBe(204);
-  });
-
-  it('should return error when deleting non existing item from pantry', async () => {
-    let deleted = await mockRequest.delete('/driver/driver-routes/driver/1234').auth(token, { type: 'bearer' });
-    expect(deleted.text).toBe('Does not exist!');
   });
 });

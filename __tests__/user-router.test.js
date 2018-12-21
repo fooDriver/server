@@ -25,25 +25,15 @@ beforeAll(async () => {
 
   let userInfo = {
     username: 'user-username',
-    name: 'user-name',
+    firstName: 'user-name',
+    lastName: 'lastname',
     password: 'userPassword',
-    role: 'user',
-    address: '2901 3rd, Seattle',
+    role: 'client',
   };
 
   let newUser = new User(userInfo);
   let testUser = await newUser.save();
   userToken = testUser.generateToken();
-
-  let driverInfo = {
-    username: 'driver-username',
-    name: 'driver-name',
-    password: 'driverPassword',
-    role: 'driver',
-  };
-
-  let newDriver = new User(driverInfo);
-  testDriver = await newDriver.save();
 });
 
 afterAll(stopDB);
@@ -54,32 +44,20 @@ afterAll(stopDB);
 describe('User router', () => {
 
   //---------------------------------
-  //    GET ROUTES
-  //---------------------------------
-  it('should send a list of all drivers to the user', async () => {
-    let response = await mockRequest
-      .get('/user/driver-routes')
-      .auth(userToken, { type: 'bearer' });
-    expect(response.body.length).toBe(1);
-    expect(response.status).toBe(200);
-  });
-
-  it('should respond with chosen driver selected by username', async () => {
-    let response = await mockRequest
-      .get('/user/driver-routes/driver-username')
-      .auth(userToken, { type: 'bearer' });
-    expect(response.status).toBe(200);
-    expect(response.body._id).toBe(testDriver._id.toString());
-  });
-
-  //---------------------------------
   //    POST ROUTES
   //---------------------------------
   it('should post a request to a specific driver name', async () => {
     let response = await mockRequest
-      .post('/user/driver-routes/request/driver-username')
+      .post('/request')
       .auth(userToken, { type: 'bearer' })
       .send({food: 'bread'});
     expect(response.body.food).toBe('bread');
   });
+
+  it('should throw 404 if no route', async () => {
+    let response = await mockRequest
+      .get('/1234');
+
+    expect(response.status).toBe(404);
+  })
 });
