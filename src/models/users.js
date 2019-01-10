@@ -23,7 +23,7 @@ const userSchema = new Schema({
     type: String,
     required: true,
     default: 'client',
-    enum: ['admin', 'driver', 'donator', 'client'],
+    enum: ['admin'],
   },
 });
 
@@ -31,7 +31,7 @@ const capabilities = {
   client: ['client'],
   donator: ['donator'],
   driver: ['driver'],
-  admin: ['admin', 'driver', 'donator', 'client'],
+  admin: ['admin'],
 };
 
 //This is the save function for signup use .save method to access save functionality on the signup
