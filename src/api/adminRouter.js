@@ -59,17 +59,12 @@ adminRouter.get('/pantries', async (req, res, next) => {
   }
 });
 
-adminRouter.get('/admin/users', auth('admin'), async (req, res, next) => {
+adminRouter.get('/admin/drivers', auth('admin'), async (req, res, next) => {
   try {
-    let sendUsers = await user.aggregate([{
-      $group: {
-        _id: '$role',
-        people: {
-          $push: '$$ROOT',
-        },
-      },
-    }]);
-    sendJSON(res, sendUsers);
+    let sendDrivers = await user.find({
+      role: 'driver',
+    }, '-password');
+    sendJSON(res, sendDrivers);
   }
   catch (err) {
     next();
