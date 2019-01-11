@@ -71,6 +71,16 @@ adminRouter.get('/admin/drivers', auth('admin'), async (req, res, next) => {
   }
 });
 
+adminRouter.get('/admin/driver-list/:id', auth('admin'), async(req, res, next) => {
+  try {
+    const driver = await user.findById(req.params.id, '-password');
+    sendJSON(res, driver);
+  }
+  catch (err) {
+    next();
+  }
+})
+
 adminRouter.get('/admin/donations', auth('admin'), async (req, res, next) => {
   try {
     const donation = await rd.find({
