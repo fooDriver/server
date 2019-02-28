@@ -47,7 +47,8 @@ export default capability => {
       return User.authenticateToken(authString)
         .then(user =>
           authenticate(user)
-        );
+        )
+        .catch(err => console.error);
     }
 
     //helper to determine the user's role
