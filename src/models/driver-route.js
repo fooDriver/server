@@ -16,4 +16,6 @@ const routeSchema = new Schema({
   },
 });
 
+routeSchema.plugin(require('mongoose-autopopulate'));
+
 export default mongoose.model('route', routeSchema);

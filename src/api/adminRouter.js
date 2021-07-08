@@ -59,17 +59,66 @@ adminRouter.get('/pantries', async (req, res, next) => {
   }
 });
 
-adminRouter.get('/admin/users', auth('admin'), async (req, res, next) => {
+adminRouter.get('/admin/drivers', auth('admin'), async (req, res, next) => {
   try {
-    let sendUsers = await user.aggregate([{
-      $group: {
-        _id: '$role',
-        people: {
-          $push: '$$ROOT',
-        },
-      },
-    }]);
-    sendJSON(res, sendUsers);
+    let sendDrivers = await user.find({
+      role: 'driver',
+    }, '-password');
+    sendJSON(res, sendDrivers);
+  }
+  catch (err) {
+    next();
+  }
+});
+
+adminRouter.get('/admin/driver-list/:id', auth('admin'), async(req, res, next) => {
+  try {
+    const driver = await user.findById(req.params.id, '-password');
+    sendJSON(res, driver);
+  }
+  catch (err) {
+    next();
+  }
+});
+
+adminRouter.get('/admin/clients', auth('admin'), async (req, res, next) => {
+  try {
+    let sendClients = await user.find({
+      role: 'client',
+    }, '-password');
+    sendJSON(res, sendClients);
+  }
+  catch (err) {
+    next();
+  }
+});
+
+adminRouter.get('/admin/client-list/:id', auth('admin'), async(req, res, next) => {
+  try {
+    const client = await user.findById(req.params.id, '-password');
+    sendJSON(res, client);
+  }
+  catch (err) {
+    next();
+  }
+});
+
+adminRouter.get('/admin/donors', auth('admin'), async (req, res, next) => {
+  try {
+    let sendDonors = await user.find({
+      role: 'donator',
+    }, '-password');
+    sendJSON(res, sendDonors);
+  }
+  catch (err) {
+    next();
+  }
+});
+
+adminRouter.get('/admin/donor-list/:id', auth('admin'), async(req, res, next) => {
+  try {
+    const donor = await user.findById(req.params.id, '-password');
+    sendJSON(res, donor);
   }
   catch (err) {
     next();
@@ -233,5 +282,15 @@ adminRouter.delete('/admin/driver-routes/request/:username/:id', auth('admin'), 
     next();
   }
 });
+
+adminRouter.put('/admin/users/:id', auth('admin'), async (req, res, next) => {
+  try {
+    let updatedUser = await user.findByIdAndUpdate( { _id: req.params.id }, req.body, { new: true } );
+    sendJSON(res, updatedUser);
+  }
+  catch (err) {
+    next();
+  }
+})
 
 export default adminRouter;
